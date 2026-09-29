@@ -1657,7 +1657,7 @@ when bootstrap commands complete.
 | Source working tree | `Side_Project_CPG_Tree_MVP`, `feature/clinical-pathways`, `2e058896789aa3d04ebecbebf8263ed5cbe0eea7` |
 | Copy verification | Initial rsync checksum comparison completed with no differences before cleanup |
 | New Git branch | `main` in a new repository with no inherited history |
-| Initial commit | `PENDING_BOOTSTRAP_COMPLETION` |
+| Initial commit | `0de377e4e9465dc0fdeda531adc98abc9b833ffb` (`chore: bootstrap MVP 3 repository`) |
 | Tests | `849 passed in 29.73s`; real-PDF integration tests ran, zero skips reported |
 | Lint | `uvx ruff check --config .code_quality/ruff.toml .` passed |
 | Format check | `173 files already formatted` |
@@ -1670,7 +1670,8 @@ when bootstrap commands complete.
 | Removed from copied destination | Stale tool caches, Python bytecode, and coverage artifacts were removed; regenerated caches remain ignored |
 | Preserved local derived data | Existing `data/02_intermediate/` and `data/08_reporting/` artifacts, ignored |
 | Versioned content | 228 staged files: software, tests, YAML packages, derived reconciliation artifacts, project configuration, and documentation |
-| GitHub remote | `PENDING_BOOTSTRAP_COMPLETION` |
-| GitHub visibility | `PENDING_BOOTSTRAP_COMPLETION` |
-| Push state | `PENDING_BOOTSTRAP_COMPLETION` |
+| GitHub remote | `https://github.com/elKiruvi/Side_Project_CPG_Tree_MVP_3` configured as `origin` |
+| GitHub visibility | Explicitly verified as `PRIVATE` with GitHub CLI before the push attempt |
+| Push state | Blocked: GitHub rejected workflow files because the active OAuth token lacks the `workflow` scope; no branch was published |
+| Required user action | Run `gh auth refresh -h github.com -s workflow`, complete GitHub authorization, then run `git push -u origin main` |
 | Immediate next step | Phase 1 domain contracts on a feature branch |
