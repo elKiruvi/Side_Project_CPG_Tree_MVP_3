@@ -1,0 +1,34 @@
+{
+  "template": "https://github.com/JoseRZapata/data-science-project-template",
+  "commit": "4270c3823e0655de594f51a8007215b50b5d4df7",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "Side Project CPG Tree MVP 3",
+      "repo_name": "Side_Project_CPG_Tree_MVP_3",
+      "github_username": "elKiruvi",
+      "author_name": "Jose R. Zapata",
+      "author_email": "joserzapata.github.io",
+      "description": "Research prototype for evidence-bound extraction of reviewable clinical decision graphs",
+      "compatible_python_versions": "3.12",
+      "mkdocs": false,
+      "codecov": false,
+      "license": "MIT License",
+      "_copy_without_render": [
+        ".code_quality/*",
+        ".vscode/*",
+        "config/*",
+        "data/*",
+        "src/*",
+        "tests/*",
+        ".editorconfig",
+        ".pre-commit-config.yaml",
+        "codecov.yaml",
+        "docs/*"
+      ],
+      "_template": "https://github.com/JoseRZapata/data-science-project-template",
+      "_commit": "4270c3823e0655de594f51a8007215b50b5d4df7"
+    }
+  },
+  "directory": null
+}
