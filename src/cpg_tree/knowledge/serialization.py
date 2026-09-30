@@ -327,4 +327,9 @@ def _source_document_from_dict(data: Mapping[str, Any]) -> SourceDocument:
         sha256=data.get("sha256"),
         file_format=data.get("file_format", "pdf"),
         byte_size=data.get("byte_size"),
+        media_type=data.get("media_type"),
+        page_count=data.get("page_count"),
+        protocol_id=data.get("protocol_id"),
+        protocol_version=data.get("protocol_version"),
+        approval_date=data.get("approval_date"),
     )
