@@ -294,8 +294,122 @@ def test_batch_issues_carry_categories_and_severity() -> None:
                     "category": "SOURCE_CONFLICT",
                     "severity": "BLOCKING",
                     "description": "two source representations disagree",
+                    "related_ids": ["span-1"],
                 }
             ],
         }
     )
     assert batch.issues[0].severity == "BLOCKING"
+
+
+def test_numeric_strings_are_not_coerced_into_clinical_thresholds() -> None:
+    with pytest.raises(ValidationError):
+        CandidateRuleBatch.model_validate(
+            {
+                "schema_version": CANDIDATE_RULE_BATCH_SCHEMA_VERSION,
+                "run_id": "run-1",
+                "segment_id": "seg-1",
+                "outcome": "COMPLETE",
+                "items": [
+                    {
+                        "candidate_id": "cand-1",
+                        "condition": {
+                            "kind": "COMPARISON",
+                            "variable_ref": "bun",
+                            "operator": "GT",
+                            "operand": "30",
+                        },
+                        "evidence_class": "SOURCE_STATED",
+                    }
+                ],
+            }
+        )
+
+
+def test_no_candidates_rejects_items_and_variables() -> None:
+    with pytest.raises(ValidationError):
+        CandidateRuleBatch.model_validate(
+            {
+                "schema_version": CANDIDATE_RULE_BATCH_SCHEMA_VERSION,
+                "run_id": "run-1",
+                "segment_id": "seg-1",
+                "outcome": "NO_CANDIDATES",
+                "variables": [{"variable_id": "bun", "label": "BUN", "value_type": "NUMERIC"}],
+            }
+        )
+
+
+def test_non_finite_clinical_number_is_rejected() -> None:
+    with pytest.raises(ValidationError):
+        CandidateRuleBatch.model_validate(
+            {
+                "schema_version": CANDIDATE_RULE_BATCH_SCHEMA_VERSION,
+                "run_id": "run-1",
+                "segment_id": "seg-1",
+                "outcome": "COMPLETE",
+                "items": [
+                    {
+                        "candidate_id": "cand-1",
+                        "condition": {
+                            "kind": "COMPARISON",
+                            "variable_ref": "bun",
+                            "operator": "GT",
+                            "operand": float("inf"),
+                        },
+                        "evidence_class": "SOURCE_STATED",
+                    }
+                ],
+            }
+        )
+
+
+def test_relation_rejects_duplicate_targets() -> None:
+    with pytest.raises(ValidationError, match="duplicates"):
+        CandidateRelationBatch.model_validate(
+            {
+                "schema_version": CANDIDATE_RELATION_BATCH_SCHEMA_VERSION,
+                "run_id": "run-1",
+                "segment_id": "seg-1",
+                "outcome": "COMPLETE",
+                "items": [
+                    {
+                        "candidate_relation_id": "rel-1",
+                        "source_ref": "rule-1",
+                        "target_refs": ["rule-2", "rule-2"],
+                        "relation_type": "FLOW",
+                        "evidence_class": "SOURCE_STATED",
+                    }
+                ],
+            }
+        )
+
+
+def test_normalized_evidence_requires_transformation_record() -> None:
+    with pytest.raises(ValidationError, match="transformation"):
+        CandidateRuleBatch.model_validate(
+            {
+                "schema_version": CANDIDATE_RULE_BATCH_SCHEMA_VERSION,
+                "run_id": "run-1",
+                "segment_id": "seg-1",
+                "outcome": "COMPLETE",
+                "items": [
+                    {
+                        "candidate_id": "cand-1",
+                        "condition": {
+                            "kind": "FLAG",
+                            "variable_ref": "flag",
+                            "expected": True,
+                        },
+                        "evidence_class": "NORMALIZED",
+                        "evidence_bindings": [
+                            {
+                                "claim_path": "/condition/expected",
+                                "evidence_class": "NORMALIZED",
+                                "source_span_refs": ["span-1"],
+                                "exact_quote": "present",
+                            }
+                        ],
+                    }
+                ],
+            }
+        )

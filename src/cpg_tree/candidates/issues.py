@@ -23,6 +23,7 @@ class Issue:
     description: str
     related_ids: tuple[str, ...] = ()
     status: IssueStatus = IssueStatus.OPEN
+    generation_attempt_id: str | None = None
 
     def __post_init__(self) -> None:
         validate_identifier(self.issue_id, "Issue.issue_id")
@@ -30,3 +31,5 @@ class Issue:
             raise ValueError("Issue.description must not be empty")
         for related in self.related_ids:
             validate_identifier(related, "Issue.related_ids entry")
+        if self.generation_attempt_id is not None:
+            validate_identifier(self.generation_attempt_id, "Issue.generation_attempt_id")
