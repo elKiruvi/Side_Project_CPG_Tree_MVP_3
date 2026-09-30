@@ -19,7 +19,16 @@ from __future__ import annotations
 from enum import StrEnum
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictBool,
+    StrictFloat,
+    StrictInt,
+    field_validator,
+    model_validator,
+)
 
 OBSERVATION_BATCH_SCHEMA_VERSION = "observation-batch-v1"
 CANDIDATE_RULE_BATCH_SCHEMA_VERSION = "candidate-rule-batch-v1"
@@ -52,7 +61,7 @@ class BatchOutcome(StrEnum):
 
 
 class _WireModel(BaseModel):
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    model_config = ConfigDict(extra="forbid", frozen=True, allow_inf_nan=False)
 
 
 class EvidenceBindingWire(_WireModel):
@@ -75,6 +84,8 @@ class EvidenceBindingWire(_WireModel):
     def _span_refs_required_except_unresolved(self) -> EvidenceBindingWire:
         if not self.source_span_refs and self.evidence_class != "UNRESOLVED":
             raise ValueError("source_span_refs required unless evidence_class is UNRESOLVED")
+        if self.evidence_class == "NORMALIZED" and not self.transformation:
+            raise ValueError("NORMALIZED evidence requires a transformation record")
         return self
 
 
@@ -82,7 +93,7 @@ class WireComparison(_WireModel):
     kind: Literal["COMPARISON"]
     variable_ref: str = Field(min_length=1)
     operator: Literal["EQ", "NE", "LT", "LE", "GT", "GE"]
-    operand: int | float
+    operand: StrictInt | StrictFloat
 
     @field_validator("operand")
     @classmethod
@@ -103,14 +114,14 @@ class WireMembership(_WireModel):
 class WireFlag(_WireModel):
     kind: Literal["FLAG"]
     variable_ref: str = Field(min_length=1)
-    expected: bool
+    expected: StrictBool
 
 
 class WireTemporal(_WireModel):
     kind: Literal["TEMPORAL"]
     variable_ref: str = Field(min_length=1)
     temporal_operator: Literal["AT_LEAST_FOR_LAST", "WITHIN_LAST"]
-    duration_value: float = Field(ge=0)
+    duration_value: StrictInt | StrictFloat = Field(ge=0)
     duration_unit: str = Field(min_length=1)
 
 
@@ -118,7 +129,7 @@ class WireLogical(_WireModel):
     kind: Literal["LOGICAL"]
     operator: Literal["AND", "OR", "NOT", "AT_LEAST_N"]
     operands: tuple[WireExpression, ...]
-    threshold: int | None = None
+    threshold: StrictInt | None = None
 
     @model_validator(mode="after")
     def _logical_arity_is_valid(self) -> WireLogical:
@@ -165,7 +176,7 @@ class ActionWire(_WireModel):
         "RESTRICTION",
     ]
     target_text: str | None = None
-    dose_value: str | int | float | None = None
+    dose_value: str | StrictInt | StrictFloat | None = None
     dose_unit: str | None = None
     route: str | None = None
     frequency: str | None = None
@@ -183,6 +194,25 @@ class ActionWire(_WireModel):
                 "dose_value must be a string or number, not a boolean"
             )
         return value
+
+
+class VariableWire(_WireModel):
+    """Wire form of one typed clinical variable proposed by the LLM."""
+
+    variable_id: str = Field(min_length=1)
+    label: str = Field(min_length=1)
+    value_type: Literal["NUMERIC", "CATEGORICAL", "BOOLEAN", "DURATION"]
+    unit: str | None = None
+    allowed_values: tuple[str, ...] | None = None
+    evidence_bindings: tuple[EvidenceBindingWire, ...] = ()
+
+    @model_validator(mode="after")
+    def _allowed_values_match_type(self) -> VariableWire:
+        if self.value_type == "CATEGORICAL" and not self.allowed_values:
+            raise ValueError("categorical variables require allowed_values")
+        if self.value_type != "CATEGORICAL" and self.allowed_values is not None:
+            raise ValueError("allowed_values are only valid for categorical variables")
+        return self
 
 
 class BatchIssueWire(_WireModel):
@@ -203,7 +233,7 @@ class BatchIssueWire(_WireModel):
     ]
     severity: Literal["BLOCKING", "NON_BLOCKING"]
     description: str = Field(min_length=1)
-    related_ids: tuple[str, ...] = ()
+    related_ids: tuple[str, ...] = Field(min_length=1)
 
 
 class ObservationItem(_WireModel):
@@ -226,7 +256,7 @@ class ObservationItem(_WireModel):
     subject_text: str | None = None
     predicate_text: str | None = None
     object_text: str | None = None
-    negated: bool = False
+    negated: StrictBool = False
     issue_ids: tuple[str, ...] = ()
 
     @model_validator(mode="after")
@@ -291,6 +321,8 @@ class CandidateRelationItem(_WireModel):
             raise ValueError("endpoints must not use wildcard references")
         if self.source_ref in self.target_refs:
             raise ValueError("a relation must not reference itself")
+        if len(set(self.target_refs)) != len(self.target_refs):
+            raise ValueError("target_refs must not contain duplicates")
         return self
 
 
@@ -302,6 +334,13 @@ class _BatchEnvelope(_WireModel):
     segment_id: str = Field(min_length=1)
     outcome: BatchOutcome
     issues: tuple[BatchIssueWire, ...] = ()
+
+    @model_validator(mode="after")
+    def _outcome_matches_items(self) -> _BatchEnvelope:
+        items = getattr(self, "items", ())
+        if self.outcome in {BatchOutcome.NO_CANDIDATES, BatchOutcome.FAILED} and items:
+            raise ValueError(f"{self.outcome.value} batches must not contain items")
+        return self
 
 
 class ObservationBatch(_BatchEnvelope):
@@ -321,6 +360,13 @@ class CandidateRuleBatch(_BatchEnvelope):
     """Structured LLM response envelope for candidate rules."""
 
     items: tuple[CandidateRuleItem, ...] = ()
+    variables: tuple[VariableWire, ...] = ()
+
+    @model_validator(mode="after")
+    def _empty_outcome_has_no_variables(self) -> CandidateRuleBatch:
+        if self.outcome in {BatchOutcome.NO_CANDIDATES, BatchOutcome.FAILED} and self.variables:
+            raise ValueError(f"{self.outcome.value} batches must not contain variables")
+        return self
 
     @field_validator("schema_version")
     @classmethod

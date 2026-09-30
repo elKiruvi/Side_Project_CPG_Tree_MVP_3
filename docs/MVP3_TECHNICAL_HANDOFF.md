@@ -519,6 +519,42 @@ overwrite history.
 The first milestone produces a reviewable Candidate Graph, not a clinically
 approved package. `ApprovedKnowledgePackage` compilation follows human review.
 
+## 5.1 Architecture Clarification — LLM-First Clinical Semantics
+
+The semantic boundary is binding:
+
+```text
+DETERMINISTIC DOCUMENT LAYER
+  PDF identity, extraction, layout, SourceSpan, provenance
+                ↓
+LLM SEMANTIC INTERPRETATION LAYER
+  observations, conditions, actions, rules, sequence, relationships,
+  ambiguity and global reconciliation
+                ↓
+DETERMINISTIC VALIDATION LAYER
+  strict schemas, hashes, reference closure, evidence verification,
+  duplicate detection, graph integrity and technical findings
+```
+
+The LLM is the primary authority for proposing clinical meaning. No
+deterministic parser, regex, heading heuristic, table position, keyword match,
+document order, proximity rule, or manually encoded clinical template may be
+the primary mechanism for creating a `CandidateRule` or
+`CandidateRelation`. In particular, deterministic code must never infer a
+clinical `FLOW` or `BRANCH` merely because two statements are adjacent.
+
+Regex and deterministic normalization may support technical processing, such
+as locating source offsets, validating identifiers, checking exact quotes, or
+detecting duplicate structures. They may reject or flag an LLM proposal. They
+must not silently alter or decide thresholds, units, operators, negation,
+actions, exceptions, branches, or clinical sequence.
+
+The Phase 2 boundary audit found no deterministic clinical interpretation in
+the current extraction implementation. Its heading, caption, reading-order,
+table, image, and possible cross-page-table heuristics describe documentary
+structure only. They do not create conditions, recommendations, rules, or graph
+edges, so Phase 2 remains intact.
+
 ---
 
 ## 6. Target architecture
@@ -527,14 +563,13 @@ approved package. `ApprovedKnowledgePackage` compilation follows human review.
 
 ```text
 PDF registered by hash
-  -> multichannel extraction
+  -> deterministic multichannel documentary extraction
   -> DocumentMap + SourceSpan inventory
-  -> hierarchical segmentation
+  -> broad/full-document LLM context (structured segmentation only when needed)
   -> LLM ObservationBatch
   -> LLM CandidateRuleBatch
-  -> deterministic normalization and deduplication
   -> LLM CandidateRelationBatch
-  -> global reconciliation
+  -> LLM global reconciliation
   -> deterministic structural validation
   -> Candidate Graph
   -> visualization + provenance + Issues
@@ -548,11 +583,13 @@ PDF registered by hash
 ## 6.2 Architectural boundaries
 
 - Source extraction records what was recovered and how.
-- Observation extraction records source statements without declaring executable
-  semantics.
-- Rule extraction proposes computable semantics.
-- Relationship extraction proposes topology after rule IDs exist.
-- Reconciliation considers the document globally and preserves conflicts.
+- LLM observation interpretation records source statements without declaring
+  approved or executable semantics.
+- LLM rule generation proposes computable semantics and the expression AST.
+- LLM relationship resolution proposes topology only after stable candidate IDs
+  exist.
+- LLM reconciliation considers the complete document and candidate inventory
+  globally and preserves conflicts.
 - Structural validation is deterministic and fail-closed.
 - Clinical validation is human.
 - Graph and tree views are projections from candidate or approved artifacts.
@@ -1106,10 +1143,10 @@ The selected strategy is:
 
 ```text
 evidence
-  -> observations
-  -> rules
-  -> relations
-  -> global reconciliation
+  -> LLM observations
+  -> LLM candidate rules
+  -> LLM candidate relations
+  -> LLM global reconciliation
 ```
 
 ### Why not one prompt
@@ -1126,8 +1163,8 @@ its citations are hard to verify.
 3. Build a hierarchical document map without dropping short or sparse content.
 4. Ask the LLM for observations bounded to known spans.
 5. Ask the LLM for candidate rules, without global rule-to-rule edges.
-6. Normalize variables, units, duplicate actions, and candidate identity
-   deterministically.
+6. Validate variables, units, actions, candidate identity, and evidence
+   deterministically without changing their clinical meaning.
 7. Ask the LLM for local relations using stable candidate IDs and original
    section context.
 8. Reconcile relations globally using the complete candidate inventory,
@@ -1137,10 +1174,11 @@ its citations are hard to verify.
 
 ### Role of deterministic logic
 
-Regex and scripts may detect headings, lists, numeric patterns, dose formats,
-temporal expressions, source overlap, and known table shapes. They may verify or
-flag an LLM result. They must not be the primary mechanism that determines the
-global clinical flow.
+Regex and scripts may perform auxiliary technical processing such as headings,
+source offsets, schema checks, source overlap, and exact-quote verification.
+They may verify or flag an LLM result. They must never be the authority that
+creates a clinical rule, translates narrative into an expression AST, or
+determines local or global clinical flow.
 
 ---
 
@@ -1469,7 +1507,168 @@ architecture; the plan above remains the design reference.
 - Segmentation over `DocumentMap.pages[*].elements` + `spans`; deterministic
   section paths already available; no further extraction work required to
   feed spans to the observation stage. The legacy `extract_pdf`/fragments
-  path can remain untouched.
+   path can remain untouched.
+
+## Implementation Status — Phase 3 (LLM clinical interpretation vertical slice)
+
+Implemented on `feature/llm-clinical-interpretation`. This phase establishes a
+complete provider-neutral vertical slice through observations, candidate rules,
+candidate relations, global reconciliation, and Candidate Graph assembly. It
+does not claim that the Phase 4/5 prompts are clinically optimized; those
+phases remain explicit refinement and real-document evaluation work.
+
+### Semantic boundary and Phase 2 audit
+
+- A targeted audit of `src/cpg_tree/extraction/` found no clinical condition,
+  recommendation, rule, `THEN`, branch, clinical sequence, or graph-edge
+  generation. Phase 2 was left unchanged.
+- All clinical meaning is proposed by structured LLM outputs. Deterministic code
+  renders documentary context, verifies provenance and references, converts
+  validated wire objects, reports structural findings, and assembles exactly
+  the graph nodes and edges proposed by the LLM.
+- The implementation uses the complete `DocumentMap` as context for these small
+  5–7 page protocols. It does not split source paragraphs independently or
+  infer relationships from section/page/table order.
+
+### Provider and attempt architecture
+
+- `src/cpg_tree/llm/provider.py` defines `ClinicalLLMProvider`, neutral request
+  and response dataclasses, semantic stages, and an optional configurable
+  `OpenAICompatibleProvider`. No provider SDK object enters domain models.
+- Provider, endpoint, model, model version, temperature, optional reasoning
+  effort, prompt/schema versions, input spans/hash, raw response/hash, parent
+  attempt, validation errors, timing, and usage are captured in
+  `GenerationAttempt`. The input hash covers the exact provider message
+  structure (including retry feedback), and the HTTP adapter retains malformed
+  response/error bodies for quarantine when available.
+- `invoke_structured` performs bounded fail-closed retries. Invalid JSON,
+  schema violations, mismatched envelopes, nonexistent evidence, and invalid
+  references are rejected; the validation errors are returned to the provider
+  for a complete replacement response. Exhaustion raises
+  `StructuredOutputError` and preserves every rejected attempt for quarantine.
+- A later-stage failure is raised as `SemanticPipelineError` with all accepted
+  and rejected attempts from prior stages. The manual runner writes a
+  `*.quarantine.json` artifact; candidate and quarantine writers use exclusive
+  creation and never overwrite previous run history.
+- No API key is hardcoded. The manual runner reads a caller-selected environment
+  variable (`CPG_TREE_LLM_API_KEY` by default) and an explicit/configured base
+  URL. HTTPS is required remotely; plaintext HTTP is accepted only for loopback
+  development endpoints, and automatic HTTP redirects are disabled so bearer
+  credentials and protocol text cannot cross origins implicitly.
+
+### Versioned prompts and semantic passes
+
+Prompts are versioned package artifacts under `src/cpg_tree/llm/prompts/`:
+
+- `observations-v1.md`: full-document clinical understanding and evidence-bound
+  observations;
+- `rules-v1.md`: LLM-authored variables, ClinicalExpression AST, applicability,
+  exceptions, actions, alternatives, and field evidence;
+- `relations-v1.md`: LLM-authored sequential and contextual relationships over
+  the complete rule inventory;
+- `reconciliation-v1.md`: global review for cross-section continuation,
+  unsupported links, missed branches, duplicates, conflicts, and disconnected
+  steps.
+
+The reconciliation pass is additive. It may propose new relations and Issues,
+but cannot overwrite an existing relation ID. Deterministic graph assembly does
+not invent edges to connect isolated candidates.
+
+### Structured outputs and domain conversion
+
+- Existing `ObservationBatch`, `CandidateRuleBatch`, and
+  `CandidateRelationBatch` remain the strict (`extra="forbid"`, frozen,
+  versioned) response envelopes. Numeric and Boolean clinical fields use strict
+  scalar types to reject string/Boolean coercion.
+- The HTTP adapter transforms Pydantic schemas into the strict structured-output
+  subset (all object properties required, `additionalProperties=false`, no
+  defaults/discriminator metadata) while Pydantic remains the local authority
+  for defaults and validation.
+- `CandidateRuleBatch` now includes a `VariableWire` inventory. Every
+  `variable_ref` in condition, applicability, and exception expressions must
+  resolve to an LLM-proposed typed `VariableSpec`; Python does not infer missing
+  variables or their meanings.
+- `src/cpg_tree/llm/conversion.py` explicitly converts the discriminated wire
+  AST to the existing `ClinicalExpression` domain AST and converts evidence,
+  observations, variables, actions, rules, relations, and Issues. Lifecycle
+  fields (revision 1, proposed state, attempt ID, content hash) remain
+  deterministic pipeline metadata.
+- Conversion rejects nonexistent `SourceSpan` IDs, exact quotes absent from the
+  cited spans, unknown observations/variables/endpoints, duplicate IDs, and
+  reconciliation overwrites. It resolves every `claim_path`, requires coverage
+  for each represented expression/action/variable/relation field, rejects
+  non-finite clinical numbers and incompatible expression/variable types, and
+  never repairs semantic fields.
+- LLM-generated Issues retain their generation attempt and must reference a
+  known span, candidate entity, source document, or extraction run. This allows
+  truthful document-level Issues without inventing a clinical association.
+
+### Candidate Graph and validation
+
+- `src/cpg_tree/candidates/graph.py` defines a typed Candidate Graph aggregate,
+  not a duplicate generic clinical-node model. It contains source spans,
+  generation attempts, observations, variables, nested actions, rules,
+  LLM-proposed relations, Issues, and deterministic structural findings.
+- Referential closure, globally colliding IDs, duplicate relation content,
+  evidence span references, and generation-attempt references fail closed.
+- Structural findings report missing field evidence, inferred/unresolved
+  sequential evidence, and rules disconnected from LLM-proposed `FLOW` or
+  `BRANCH` edges. A disconnected rule remains visible; no connector is added.
+- `graph_serialization.py` emits deterministic reviewable JSON containing the
+  candidate inventory, provenance, attempts (including raw responses), Issues,
+  and findings. These artifacts remain candidates and are never compiled into
+  an `ApprovedKnowledgePackage`.
+
+### Pipeline and real-document invocation
+
+- `src/cpg_tree/pipelines/semantic.py::run_semantic_pipeline` orchestrates four
+  explicit calls: observations → rules → relations → global reconciliation,
+  then validates and assembles the Candidate Graph.
+- `python -m cpg_tree.llm.run SOURCE --protocol-version-id ID --model MODEL`
+  is the manually runnable NAC/ITU path. `SOURCE` may be a real PDF (Phase 2 is
+  run first; `--protocol-id` and `--protocol-version` are then required) or a
+  serialized registered `DocumentMap`; protocol metadata must agree with the
+  canonical version ID. Output defaults to
+  `data/runs/<generation-run-id>/candidate_graph.json` (gitignored).
+- The runner uses an OpenAI-compatible strict JSON-schema endpoint selected by
+  configuration. GPT, DeepSeek, or another compatible model can be selected
+  without changing candidates or pipeline code. Additional provider adapters
+  implement the same interface.
+- Live provider calls are never part of CI. Fake-provider fixtures supply
+  pre-authored structured outputs for synthetic source spans.
+- Local no-network smoke verification built full observation prompts from both
+  real Phase 2 maps: NAC 7/7 pages and 215 spans; ITU 5/5 pages and 314 spans.
+  No source PDF or generated prompt artifact is committed.
+
+### Tests, dependencies, and limitations
+
+- Tests cover provider-neutral orchestration, all four semantic passes,
+  retry/parent-attempt behavior, invalid JSON quarantine, nonexistent span
+  rejection and retry, wire→domain conversion, variable closure, relation
+  creation, reconciliation overwrite rejection, graph assembly, and
+  deterministic serialization.
+- Final branch quality: 1034 tests pass; Ruff check/format, Mypy, explicit
+  pre-commit over all new files, `make check`, and `git diff --check` pass.
+- No runtime dependency was added; the optional HTTP adapter uses the Python
+  standard library. Existing Pydantic/PyMuPDF dependencies are unchanged.
+- The generic prompts have not yet been evaluated against a live model for full
+  NAC/ITU extraction. The known NAC BUN and ITU source tensions are prompt and
+  review requirements, not hardcoded Python cases. Visual-only NAC flowchart
+  content remains unavailable as authoritative text.
+- The current OpenAI-compatible adapter assumes endpoint support for strict
+  `json_schema` chat completions. Providers with a different API need a small
+  adapter, not domain changes.
+- Every supported binding requires a quote found in its concatenated cited
+  exact-text spans. Verified manual visual transcription remains future work;
+  visual-only claims must remain unresolved until such evidence exists.
+
+### Exact next step
+
+Run controlled NAC and ITU experiments through the manual provider path,
+inspect attempt/candidate artifacts, and refine Phase 4 rule and Phase 5
+relationship/reconciliation prompts and schemas from observed failures. Then
+expand Phase 6 structural validation. Do not begin clinical approval or compile
+an approved package.
 
 ## Phase 0: base, security, and Git
 
@@ -1536,16 +1735,18 @@ architecture; the plan above remains the design reference.
   exact-text lookup, repeated-run equivalence.
 - **Expected result:** complete `DocumentMap` and citable `SourceSpan` inventory.
 
-## Phase 3: segmentation and observations
+## Phase 3: LLM clinical interpretation
+
+Phases 3–5 are LLM-semantic phases. Phase 6 validates their artifacts
+deterministically but does not perform clinical inference.
 
 - **Objective:** derive source-bound semantic observations before formal rules.
-- **Files/modules:** sectioning, future `llm/schemas.py`, provider interface,
+- **Files/modules:** provider interface, attempt records, full-document context,
   observation prompt and run artifacts.
-- **Reuse:** current uppercase heading detection, adapted hierarchical chunking,
-  deterministic regex detectors as hints.
-- **Tasks:** build hierarchical section paths; preserve neighboring context;
-  identify lists, table rows, footnotes, definitions, recommendations, explicit
-  relations, and source Issues through structured LLM output.
+- **Reuse:** `DocumentMap`, section paths, SourceSpans, structured LLM schemas.
+- **Tasks:** preserve broad document context; ask the LLM to interpret lists,
+  tables, definitions, recommendations, explicit relations, and source Issues
+  through structured evidence-bound output.
 - **Dependencies:** selected schema-capable LLM provider adapter.
 - **Risks:** splitting one recommendation, losing cross-page context, citation
   invention, discarding short but important text.
@@ -1555,7 +1756,7 @@ architecture; the plan above remains the design reference.
   retry limit, cross-page segment fixtures.
 - **Expected result:** auditable `ObservationBatch` artifacts.
 
-## Phase 4: candidate rules
+## Phase 4: LLM candidate rule generation
 
 - **Objective:** formalize conditions and actions without yet inventing global
   topology.
@@ -1575,7 +1776,7 @@ architecture; the plan above remains the design reference.
   pregnancy context, treatment alternatives, temporal requirements.
 - **Expected result:** structurally valid candidate rule inventory.
 
-## Phase 5: relations and reconciliation
+## Phase 5: LLM relationship resolution and global reconciliation
 
 - **Objective:** connect rules using source-supported local relations followed
   by global document reconciliation.
@@ -1596,7 +1797,7 @@ architecture; the plan above remains the design reference.
   edges, contextual relationships, false medication sequence, expected roots.
 - **Expected result:** source-bound Candidate Graph.
 
-## Phase 6: automatic validation
+## Phase 6: deterministic structural validation
 
 - **Objective:** deterministically block structurally unsafe candidates and
   prepare the clinical review queue.
@@ -1614,7 +1815,7 @@ architecture; the plan above remains the design reference.
   stale hashes, citation mismatch, cycles, reachability, and provenance gaps.
 - **Expected result:** validated Candidate Graph plus clinical review queue.
 
-## Phase 7: clinical review and compilation
+## Phase 7: clinical review and approval
 
 - **Objective:** record auditable review decisions and later compile approved
   snapshots without hardcoding reviewer count.
@@ -1634,7 +1835,7 @@ architecture; the plan above remains the design reference.
 - **Expected result:** review workflow and optional approved snapshots. Clinical
   approval itself is not required for the first milestone.
 
-## Phase 8: graph, engine, and visualization
+## Phase 8: graph / engine / visualization
 
 - **Objective:** produce clinic-facing candidate views and later approved
   execution without changing source semantics.
