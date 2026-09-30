@@ -22,3 +22,13 @@ def validate_iso_date(value: str, field_name: str) -> None:
         datetime.fromisoformat(value)
     except ValueError as exc:
         raise ValueError(f"{field_name} must be an ISO-8601 date; got {value!r}") from exc
+
+
+def validate_iso_datetime(value: str, field_name: str) -> None:
+    """Raise ValueError unless value parses as an ISO-8601 date-time with time part."""
+    if "T" not in value:
+        raise ValueError(f"{field_name} must include a time component; got {value!r}")
+    try:
+        datetime.fromisoformat(value)
+    except ValueError as exc:
+        raise ValueError(f"{field_name} must be an ISO-8601 date-time; got {value!r}") from exc
