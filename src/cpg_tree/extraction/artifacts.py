@@ -2,7 +2,8 @@
 
 Artifacts live under an intermediate directory (typically
 ``data/02_intermediate/<document_id>/``) and contain extraction facts only —
-never canonical clinical knowledge.
+never canonical clinical knowledge. They are reproducible debug/intermediate
+outputs, never the canonical source of truth.
 """
 
 from __future__ import annotations
@@ -12,7 +13,9 @@ from typing import Any
 
 import yaml
 
+from cpg_tree.extraction.document import DocumentMap
 from cpg_tree.extraction.model import ExtractionResult
+from cpg_tree.extraction.serialization import dump_document_map
 from cpg_tree.knowledge.provenance import SourceFragment
 
 
@@ -53,6 +56,29 @@ def write_artifacts(result: ExtractionResult, target_dir: str | Path) -> list[Pa
     report_path = directory / "report.txt"
     report_path.write_text(_render_report(result), encoding="utf-8")
     written.append(report_path)
+
+    return written
+
+
+def write_document_map_artifacts(document_map: DocumentMap, target_dir: str | Path) -> list[Path]:
+    """Write document_map.yaml and per-page text files for a DocumentMap.
+
+    With a fixed ``extracted_at``, writing the same map twice produces
+    byte-identical artifacts.
+    """
+    directory = Path(target_dir)
+    pages_dir = directory / "pages"
+    pages_dir.mkdir(parents=True, exist_ok=True)
+    written: list[Path] = []
+
+    map_path = directory / "document_map.yaml"
+    map_path.write_text(dump_document_map(document_map), encoding="utf-8")
+    written.append(map_path)
+
+    for page in document_map.pages:
+        page_path = pages_dir / f"page_{page.page:03d}.txt"
+        page_path.write_text(page.text, encoding="utf-8")
+        written.append(page_path)
 
     return written
 

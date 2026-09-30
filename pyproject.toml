@@ -7,6 +7,7 @@ readme = "README.md"
 
 dependencies = [
     "pydantic>=2.13.5",
+    "pymupdf>=1.28.2",
     "pypdf>=6.19.0",
     "pyyaml>=6.0.2",
 ]
