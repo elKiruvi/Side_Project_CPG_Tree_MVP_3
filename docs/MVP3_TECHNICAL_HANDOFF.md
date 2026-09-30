@@ -1306,6 +1306,171 @@ implemented.
 
 ## 16. Implementation plan
 
+## Implementation Status — Phase 1 (domain contracts)
+
+Implemented and merged via PR #3 (`feat: implement Phase 1 domain contracts`,
+`c4b8521`, branch `feature/domain-contracts`). This section records what was
+actually built; the plan above remains the design reference.
+
+- **Files created:** `src/cpg_tree/candidates/` (`enums.py`, `evidence.py`,
+  `hashing.py`, `observations.py`, `variables.py`, `actions.py`, `issues.py`,
+  `rules.py`, `relations.py`, `expressions.py`), `src/cpg_tree/review/`
+  (`model.py`, `policy.py`), `src/cpg_tree/knowledge/approved.py`,
+  `src/cpg_tree/llm/schemas.py`, `src/cpg_tree/extraction/{spans,runs}.py`.
+- **Files modified:** `src/cpg_tree/knowledge/{documents.py,serialization.py,
+  _validation.py}` (SourceDocument registration fields, ISO datetime helper),
+  `src/cpg_tree/extraction/__init__.py`, `pyproject.toml` (+pydantic).
+- **Decisions:** `CandidateState` has no `APPROVED` value; content hashes are
+  computed when omitted and verified when supplied (identity/lifecycle fields
+  never participate); `knowledge/approved.py` is deliberately not re-exported
+  from `knowledge/__init__` (import-cycle avoidance); `EvidenceClass` mirrors
+  the reconciliation enum until Phase 5; the Pydantic boundary schemas are
+  frozen `extra="forbid"` envelopes with a discriminated-union wire AST.
+- **Quality at merge:** 970 tests, Ruff, Mypy, pre-commit, `make check` green.
+
+## Implementation Status — Phase 2 (document extraction)
+
+Implemented on `feature/document-extraction` (`feat(extraction): implement
+structured document extraction`). This section records the actual Phase 2
+architecture; the plan above remains the design reference.
+
+### Extraction architecture actually implemented
+
+- `extract_document_map(path, *, extracted_at=None, sparse_threshold=100)`
+  in `src/cpg_tree/extraction/layout.py` produces a frozen, validated
+  `DocumentMap`: `SourceDocument` + `ExtractionRun` + per-page `PageMap` +
+  `SourceSpan` inventory + `ExtractionNotice` list.
+- The legacy pypdf page-text path (`extract_pdf`, `ExtractionResult`,
+  fragments) is preserved unchanged for compatibility; the two APIs coexist
+  and serve different consumers.
+- Backend: **PyMuPDF (pymupdf)** `get_text("dict")` lines (with bboxes and
+  font sizes), `get_image_info`/`get_images` for figures, and
+  `find_tables` for tables (strategy "lines" preferred, "text" only for
+  compact bounded tables; text-strategy tables carry
+  `TABLE_ALIGNMENT_UNCERTAIN`).
+
+### Documentary element model
+
+- `ElementKind`: TEXT, HEADING, LIST_ITEM, TABLE, TABLE_CELL, FIGURE,
+  CAPTION, UNKNOWN (UNKNOWN is a fallback; the backend currently emits no
+  UNKNOWN elements). Footnotes are not distinguished yet (they remain TEXT —
+  limitation).
+- `DocumentElement` carries element_id, page, kind, order_index, span_id,
+  bbox, exact text, `section_path` (documentary heading chain, never clinical
+  flow), and `parent_element_id` (cells nest under their table).
+- Line granularity: these PDFs lay out each page in a single text frame, so
+  lines (not blocks) are the canonical text elements.
+
+### SourceSpan behavior
+
+- One span per element; ids are deterministic
+  (`<document_id>-p<page:03d>-e<order:03d>`) and content-addressed via the
+  document; `text_sha256` is always consistent with the exact text; bboxes
+  use PyMuPDF's top-left-origin, y-down, points convention.
+- `char_start`/`char_end` are offsets into `PageMap.text`, which is built by
+  joining text-bearing spans in element order — every text span is therefore
+  an exact substring of its page text (verified by tests).
+- No normalized text is produced in this phase: the canonical evidence layer
+  keeps exact extracted text only.
+
+### Sections, tables, figures
+
+- Sections: generic heuristic (uppercase short lines, or lines whose font is
+  ≥ 1.25× the page median); a heading chain is carried across pages; no
+  section title is hardcoded. Heading classification is heuristic, not
+  semantic.
+- Tables: preserved as TABLE + TABLE_CELL elements with page, locator
+  (`page N table K [cell rRcC]`), strategy provenance, and cell text; text
+  inside detected tables is removed from the block inventory (no
+  duplication); merged cells repeat text as reported by the backend.
+  Multipage tables are never joined: a possible continuation is flagged
+  (`POSSIBLE_CROSS_PAGE_TABLE` notice + `CROSS_PAGE_CONTINUATION` span flag)
+  when a page ends with a table and the next page has a table near its top.
+- Figures: every page image becomes a FIGURE element with bbox, `VISUAL_ONLY`
+  quality flag, and the SHA-256 of the embedded image bytes when extractable;
+  captions are detected as text lines directly below an image with horizontal
+  overlap. Figure transcription remains pending review.
+
+### OCR
+
+- No OCR in this phase. Native embedded-text extraction is the only text
+  channel. Figures are inventoried as visual-only evidence; nothing is
+  silently OCR-mixed with native text.
+
+### Determinism
+
+- `run_id` and `configuration_hash` derive deterministically from the
+  document id and the canonical backend configuration (backend, version,
+  thresholds); timestamps are run stamps, never content identity; identical
+  bytes + backend + configuration + fixed `extracted_at` ⇒ equal maps
+  (tested). No random ids anywhere.
+
+### Failures
+
+- A file that cannot be opened raises `ValueError`; per-page failures produce
+  `EXTRACTION_ERROR` pages + `PAGE_EXTRACTION_ERROR` notices (never silent
+  drops); run status is `PARTIAL`/`FAILED` accordingly. Notices are technical
+  (`ExtractionNotice`), deliberately separate from clinical `Issue` objects.
+
+### Real-PDF integration results (local, not in portable CI)
+
+- NAC (CT-PL-193 v9, `3a165475…`, `doc-3a1654757801b7b6`): 7 pages, COMPLETE,
+  ~215 spans; figures on pages 1/2/6 (incl. flowchart on p6); 5 tables
+  (header, etiology chart, discharge plan, references, change history); the
+  "TRATAMIENTO ANTIBIÓTICO EMPÍRICO" heading is exact-quoted. The treatment
+  tables described by the audit for page 5 are NOT text-recoverable (visual
+  vector content without a text layer); page 5 is recorded with its
+  recoverable content (discharge criteria + plan de egreso table), and this
+  is a documented extraction limitation, not content absence.
+- ITU (CT-PL-197 v06, `800af94b…`, `doc-800af94bc0654138`): 5 pages, COMPLETE,
+  ~314 spans; figure on page 1; tables on pages 1/4/5 including the treatment
+  table and the pregnancy table; the pregnancy table spanning pages 4–5 is
+  preserved in parts with the `POSSIBLE_CROSS_PAGE_TABLE` notice on page 5.
+
+### Files created / modified
+
+- Created: `src/cpg_tree/extraction/{document.py,layout.py,serialization.py}`,
+  `tests/unit/extraction/{layout_fixtures.py,test_layout.py,
+  test_document_map.py}`, `tests/integration/extraction/
+  test_real_document_map.py`.
+- Modified: `src/cpg_tree/extraction/{__init__.py,artifacts.py}`,
+  `pyproject.toml` (+pymupdf), `uv.lock`.
+- Serialization: `dump_document_map`/`load_document_map` (deterministic YAML,
+  round-trip tested) and `write_document_map_artifacts` for intermediate
+  artifacts under `data/02_intermediate/` (gitignored; never canonical).
+
+### New dependencies
+
+- `pymupdf` (layout/table/image inventory). No OCR, no LLM, no RAG stack.
+
+### Deviations from the original handoff
+
+- `SectionHeading` was dropped from the model: heading level is derivable
+  from the `section_path` chain length, and headings are ordinary elements.
+- `page_image_sha256` on figure spans hashes the embedded image bytes, not a
+  rendered page image (page rendering is not needed yet).
+- Block-level spans were replaced by line-level spans after inspecting the
+  real documents (single text frame per page).
+- `pdfplumber` was not added: PyMuPDF's table evidence proved sufficient.
+
+### Known limitations
+
+- Text-strategy table detection is deliberately conservative; some genuine
+  tables (NAC p5 treatment tables) remain as text lines or visual-only.
+- Footnotes are not auto-detected; they remain TEXT elements.
+- Heading classification is heuristic and can misclassify short uppercase
+  lines (e.g. PMID lines).
+- Bounding boxes are only as reliable as PyMuPDF's layout analysis.
+- The known mypy_path latency (Phase 1) is unchanged; no repo-wide cleanup
+  was performed.
+
+### Prerequisites for Phase 3
+
+- Segmentation over `DocumentMap.pages[*].elements` + `spans`; deterministic
+  section paths already available; no further extraction work required to
+  feed spans to the observation stage. The legacy `extract_pdf`/fragments
+  path can remain untouched.
+
 ## Phase 0: base, security, and Git
 
 - **Objective:** establish an independent, reproducible, private MVP 3
