@@ -1670,6 +1670,109 @@ relationship/reconciliation prompts and schemas from observed failures. Then
 expand Phase 6 structural validation. Do not begin clinical approval or compile
 an approved package.
 
+## Implementation Status — Phase 4 (OpenCode-authored clinical candidates)
+
+Implemented on `feature/llm-candidate-rules` on 2026-10-01. This phase used
+**LLM-assisted knowledge authoring through the OpenCode agent**, model
+`openai/gpt-5.6-sol`. The OpenCode model itself read and interpreted each source
+PDF, authored the candidate semantics, and performed a separate reconciliation
+pass for each protocol. No OpenAI/DeepSeek API, Ollama process, local SLM,
+runtime provider endpoint, API key, or Phase 3 provider invocation was used.
+
+### Artifact architecture
+
+- Independent artifacts live under `artifacts/phase4/nac/` and
+  `artifacts/phase4/itu/`; no clinical knowledge is shared between protocols.
+- Each directory contains a protocol-specific `author_graph.py`, deterministic
+  `candidate_graph.json`, and clinician-readable `review.md`.
+- The authoring modules express the agent's semantic result as the existing
+  `Observation`, `VariableSpec`, `ClinicalExpression`, `ActionSpec`,
+  `CandidateRule`, `CandidateRelation`, `Issue`, `EvidenceBinding`, and
+  `CandidateGraph` contracts. They are knowledge artifacts, not generic parsers:
+  they contain no regex, keyword, proximity, page-order, or automatic clinical
+  extraction mechanism.
+- `load_candidate_graph` now reconstructs the domain aggregate from its
+  deterministic JSON representation. Round-trip, reference closure, exact-quote
+  provenance, and structural checks cover both committed graphs without
+  asserting clinical correctness.
+
+### NAC result (CT-PL-193 v9)
+
+- **Inventory:** 29 CandidateRules, 33 CandidateRelations, 63 variables,
+  29 observations, and 7 open Issues.
+- **Graph status:** structurally valid with no error findings. Two warning-only
+  disconnected rules are intentional: febrile-neutropenia CT is an independent
+  entry context, and suspicion-stage basic laboratory assessment is connected
+  contextually rather than through a fabricated clinical sequence.
+- **Pathway:** lower-respiratory presentation -> radiography -> supported
+  diagnosis/repeat radiography/conditional CT -> progressive labs and hospital
+  microbiology -> hospitalization -> direct or three-of-nine ICU/UCE assessment
+  -> context-specific empirical treatment -> result-guided adjustment ->
+  composite discharge eligibility -> education and four-week follow-up.
+- **Complex logic preserved:** blood cultures use hospitalized pneumonia AND
+  (any one of BUN >30, CRP >15, leukocytes >15000 OR at least two of DBP <60,
+  HR >120, RR >30, pleuritic pain). ICU/UCE direct indications remain separate
+  from the AT_LEAST_N(3) pathway. Hospitalization is OR; discharge is a proposed
+  AND composite with an explicit operator Issue.
+- **Issues:** visual treatment extraction, visual-only flowchart, narrative
+  BUN >30 versus flowchart BUN >20, narrative/flowchart ICU differences,
+  incompletely operationalized resistant-organism risks, treatment-table
+  footnote alignment, and discharge-list operator.
+- **Visual-source limitation:** page 5 treatment candidates came from direct
+  visual inspection and use a separate `manual-visual-inspection-opencode`
+  SourceSpan marked `VISUAL_ONLY` and `TABLE_ALIGNMENT_UNCERTAIN`; they remain
+  `BLOCKED`. Page 6 was inspected for known conflicts but did not define graph
+  edges or override narrative evidence.
+
+### ITU result (CT-PL-197 v06)
+
+- **Inventory:** 38 CandidateRules, 43 CandidateRelations, 60 variables,
+  38 observations, and 7 open Issues.
+- **Graph status:** structurally valid with no error findings. Three warning-only
+  disconnected rules are intentional: the two non-equivalent complicated-UTI
+  definitions are contextual/conflicting classifications, and the pediatric
+  hospitalization statement is blocked outside the declared adult scope.
+- **Pathway:** symptomatic versus asymptomatic classification with overlapping
+  lower/upper/complicated contexts -> distinct urinalysis, Gram, and culture
+  decisions/exceptions -> scoped culture thresholds and pre-antibiotic sampling
+  -> severity-dependent blood tests and nested imaging modality -> restricted
+  asymptomatic-bacteriuria treatment or inpatient/outpatient treatment context
+  -> culture/antibiogram adjustment -> ambiguous oral-step/discharge eligibility.
+- **Tables:** the general page 4 treatment table and page 4-5 pregnancy table
+  retain alternatives, doses, routes, intervals, durations, resistance/shock
+  qualifiers, control-culture fields, preventive therapy, and footnotes. The
+  pregnancy continuation is one clinical context, not two pathways.
+- **Issues:** two complicated-UTI definitions, upper-UTI hospitalization versus
+  outpatient treatment, pediatric text in adult scope, oral therapy and/or
+  discharge ambiguity, cross-page pregnancy-note alignment, hospitalization
+  list operator, and transition-list operator.
+- **Source limitation:** native table extraction is substantially complete, but
+  the pregnancy preventive-option/gestational-note alignment remains blocked
+  for human verification. No page-break-based sequence was inferred.
+
+### Validation and review boundary
+
+- Both JSON artifacts round-trip through domain contracts byte-for-byte.
+- Every endpoint and entity reference resolves; all variables, rules, actions,
+  and relations have evidence bindings; every non-visual exact quote resolves
+  in its cited SourceSpan; no sequential edge uses `INFERRED` or `UNRESOLVED`
+  evidence.
+- Structural warnings preserve honest disconnected/contextual components and do
+  not trigger automatic edge creation.
+- Software validation does not constitute clinical validation. All candidates
+  remain `PROPOSED` or explicitly `BLOCKED`; none are approved or compiled into
+  an `ApprovedKnowledgePackage`.
+
+### Remaining clinical review and exact next step
+
+Have qualified clinical reviewers inspect `artifacts/phase4/nac/review.md` and
+`artifacts/phase4/itu/review.md` alongside each Candidate Graph and cited source
+regions. Adjudicate the blocking source conflicts, table/footnote associations,
+list operators, treatment qualifiers, and disputed relationships; record
+corrections as new candidate revisions. Do not begin clinician-facing final
+visualization or approved-package compilation until that semantic graph review
+is complete.
+
 ## Phase 0: base, security, and Git
 
 - **Objective:** establish an independent, reproducible, private MVP 3
