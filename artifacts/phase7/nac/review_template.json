@@ -1,0 +1,595 @@
+{
+  "catalog": [
+    {
+      "candidate_revision": 1,
+      "content_hash": "01dce1c64c50a790d9d6d7982ea9f03c44c6a0a85558622d03e1022f707d932b",
+      "issues": [],
+      "item_id": "nac-r01-chest-radiograph",
+      "item_type": "RULE",
+      "label": "Obtain chest radiograph",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "b50f5fb50c6e037a1e04810c425171302cdf2208e4d8672f8b1e8e273a089751",
+      "issues": [],
+      "item_id": "nac-r02-diagnostic-support",
+      "item_type": "RULE",
+      "label": "Diagnosis of pneumonia supported",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "c4ad11803f10c26ff29acc493fe21572c37f3ac47721d9a98a99e1c2866a1c27",
+      "issues": [],
+      "item_id": "nac-r03-repeat-radiograph",
+      "item_type": "RULE",
+      "label": "Repeat chest radiograph",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "e8bea5896e02eb6ef1547e3501b552745e72d3358e54bf09396459e876289601",
+      "issues": [],
+      "item_id": "nac-r04-ct-inconclusive",
+      "item_type": "RULE",
+      "label": "Obtain chest CT",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "3a042b4c8a846c22105b49d36d172a204fe8c8a1e799dce88f6a7969706a45fa",
+      "issues": [],
+      "item_id": "nac-r05-ct-neutropenia",
+      "item_type": "RULE",
+      "label": "Obtain non-contrast chest CT",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "0cc729bafe9bdb11aabab1c2a90720c0bb314ba92e8a2dc69392f6aefe67b97a",
+      "issues": [],
+      "item_id": "nac-r06-basic-laboratory",
+      "item_type": "RULE",
+      "label": "Obtain complete blood count and blood urea nitrogen to assess hospitalization need",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "ac8d2175cc0f88d7f848c05e336d055dafc97994e8551d6352f5d5f187080cd2",
+      "issues": [],
+      "item_id": "nac-r07-hospital-laboratory",
+      "item_type": "RULE",
+      "label": "Add C-reactive protein, creatinine, lactate, and sodium",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "9d336b772cd495d62bd6d8c96503b6116b4362f83cdcbc3c115a3bfe4563f246",
+      "issues": [],
+      "item_id": "nac-r08-severe-laboratory",
+      "item_type": "RULE",
+      "label": "Add coagulation tests, AST, ALT, bilirubin, and arterial blood gases",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "a9486d912a48f154680f3522aec25e16a63ec3479b90cf6adc3f7581587e7670",
+      "issues": [],
+      "item_id": "nac-r09-desaturation-abg",
+      "item_type": "RULE",
+      "label": "Obtain arterial blood gases",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "f3259574ace69de36bb398a543fb599ad2714c1368fad1130678aadbfc06ac89",
+      "issues": [],
+      "item_id": "nac-r10-pleural-serum-tests",
+      "item_type": "RULE",
+      "label": "Obtain serum lactate dehydrogenase and total proteins",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "fa26001edb9ab3201dc972d8452aadec9c5a54c1af0e9d0caed41df9df0b20ca",
+      "issues": [
+        "nac-issue-bun-conflict"
+      ],
+      "item_id": "nac-r11-blood-cultures",
+      "item_type": "RULE",
+      "label": "Obtain two blood-culture bottle samples and one anaerobic-culture bottle sample before the first intravenous antibiotic dose",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "27db0bf97b48614c9fc1f04ac1abcc6e112d807f369982ae468984a61d0a9d21",
+      "issues": [],
+      "item_id": "nac-r12-sputum-culture",
+      "item_type": "RULE",
+      "label": "Obtain sputum for Gram stain and culture",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "8f0258b2deec49ffdfe21b26000ad4523e07b3712e00053c9a6f71380005a2cd",
+      "issues": [],
+      "item_id": "nac-r13-induced-sputum",
+      "item_type": "RULE",
+      "label": "Induce sputum with 3% hypertonic saline nebulization",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "13b5cc0a29002ad10bcd1db2e9db40b7e026e3fe9ebcc71c23bb231fbd4f7a5e",
+      "issues": [],
+      "item_id": "nac-r14-filmarray",
+      "item_type": "RULE",
+      "label": "Request respiratory FilmArray molecular testing",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "c52f3898735dec9afd1fee8ae2fad4c0070dcfbfec0fc58b91396bc7443937cb",
+      "issues": [],
+      "item_id": "nac-r15-deep-filmarray",
+      "item_type": "RULE",
+      "label": "Use pneumonia FilmArray panel (code 502828) as first option with deep respiratory sample",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "5b25cabb4c62a9a27262ce0f7f0e93a3630eea201b697cc4b55ad4789b55e2b7",
+      "issues": [],
+      "item_id": "nac-r16-nasopharyngeal-panel",
+      "item_type": "RULE",
+      "label": "Use respiratory pathogen panel (code 502162) from nasopharyngeal swab",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "30550389482b8cb45720e3a6352bc014fcafafd6caa560d6845e7a578058da66",
+      "issues": [],
+      "item_id": "nac-r17-pleural-study",
+      "item_type": "RULE",
+      "label": "Perform diagnostic thoracentesis and pleural-fluid cytochemistry, LDH, total protein, Gram stain, and culture",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "4122d4b6920056225845420a3d3277b09c00a57eb3b0ed5b18745ed5f016157d",
+      "issues": [],
+      "item_id": "nac-r18-hospitalization",
+      "item_type": "RULE",
+      "label": "Admit to hospital",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "b5b192f7194b6e5686e504c43c7bfe1f56983d38e0b33e41cb3bb4f3e0c961b5",
+      "issues": [
+        "nac-issue-icu-modalities"
+      ],
+      "item_id": "nac-r19-icu-direct",
+      "item_type": "RULE",
+      "label": "Admit to ICU or intermediate care unit",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "df72c68fed69b42cd8c9c345116b0218a982537ceb71699f0c38111c72915c0c",
+      "issues": [
+        "nac-issue-bun-conflict",
+        "nac-issue-icu-modalities"
+      ],
+      "item_id": "nac-r20-icu-three-criteria",
+      "item_type": "RULE",
+      "label": "Admit to ICU or intermediate care unit",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "8a404683533ee3e1ad1cb8b4f9656287d425375d942b9794792e8b662418a068",
+      "issues": [
+        "nac-issue-risk-definitions",
+        "nac-issue-visual-treatment"
+      ],
+      "item_id": "nac-r21-treatment-no-risk",
+      "item_type": "RULE",
+      "label": "Cefuroxime 1500 mg IV every 8 hours OR ampicillin/sulbactam 3 g IV every 6 hours OR moxifloxacin 400 mg IV daily for 5-7 days",
+      "state": "BLOCKED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "c5f3bff9bf56a3ad8646313cfbe52513a04cc867023d88414aa79252d1b2aa9f",
+      "issues": [
+        "nac-issue-risk-definitions",
+        "nac-issue-visual-treatment"
+      ],
+      "item_id": "nac-r22-treatment-pseudomonas",
+      "item_type": "RULE",
+      "label": "Piperacillin/tazobactam, cefepime, meropenem, or ceftazidime/avibactam according to the table, for 5-7 days",
+      "state": "BLOCKED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "5834cc572286852c9356a69d1f8243aee53033ae0cb889c6fd58ffb69cb39d6e",
+      "issues": [
+        "nac-issue-risk-definitions",
+        "nac-issue-visual-treatment"
+      ],
+      "item_id": "nac-r23-treatment-mrsa-combined",
+      "item_type": "RULE",
+      "label": "An antipseudomonal/resistant-Enterobacterales option plus linezolid or vancomycin according to the table, for 5-7 days",
+      "state": "BLOCKED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "82578855525855e8545bb151d38692e23e3ec72bd2216055fb03affa29925a53",
+      "issues": [
+        "nac-issue-risk-definitions",
+        "nac-issue-visual-treatment"
+      ],
+      "item_id": "nac-r24-treatment-mrsa-only",
+      "item_type": "RULE",
+      "label": "Cefuroxime or ampicillin/sulbactam plus linezolid or vancomycin according to the table, for 5-7 days",
+      "state": "BLOCKED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "a0df6ef72c6f84f70050fed8e7eac3ec211e41bdad0258b9dea4ba4ea57e7112",
+      "issues": [
+        "nac-issue-risk-definitions",
+        "nac-issue-visual-treatment"
+      ],
+      "item_id": "nac-r25-treatment-postviral",
+      "item_type": "RULE",
+      "label": "Cefuroxime or ceftriaxone; ceftaroline is listed for selected coinfection context, for 5-7 days",
+      "state": "BLOCKED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "fe1bc698ee7530ff8c8759f6ab76828491712e6faddce69601484278a3c22a23",
+      "issues": [
+        "nac-issue-visual-treatment"
+      ],
+      "item_id": "nac-r26-adjust-to-results",
+      "item_type": "RULE",
+      "label": "Adjust antimicrobial treatment according to molecular testing or culture",
+      "state": "BLOCKED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "5868f59e1b18a308f56db6f1fa9606e77beb6a176489cea481555790f1f04edf",
+      "issues": [
+        "nac-issue-discharge-and"
+      ],
+      "item_id": "nac-r27-discharge",
+      "item_type": "RULE",
+      "label": "Discharge patient",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "f1f2d2366f4971eca665b7b2117482db352dd1ec04669e16f2b8dc9c4cf7992c",
+      "issues": [],
+      "item_id": "nac-r28-discharge-education",
+      "item_type": "RULE",
+      "label": "Explain relapse warning signs: fever, dyspnea, and chest pain",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "67d4467d05fbd664390cc42401cc25c87993778286b017abf3789403dfb947fc",
+      "issues": [],
+      "item_id": "nac-r29-follow-up",
+      "item_type": "RULE",
+      "label": "Internal medicine review",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "6771a8d5591bbebe213d66d46ea808b7343f1247cf90b6bf73daccd44ecf22f1",
+      "issues": [],
+      "item_id": "nac-rel-01",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r01-chest-radiograph → nac-r02-diagnostic-support [compatible picture plus new infiltrate]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "62c3cdde7d3061613f53a996a609a7038b60a0382e09da0edac8fee94bfb9e34",
+      "issues": [],
+      "item_id": "nac-rel-02",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r01-chest-radiograph → nac-r03-repeat-radiograph [negative initial radiograph and high suspicion]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "3e5c6c34d173b8c71f55e337243f5d34bf972390eade1a06169c22e417a6f167",
+      "issues": [],
+      "item_id": "nac-rel-03",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r01-chest-radiograph → nac-r04-ct-inconclusive [inconclusive radiograph with CT indication]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "f675e5101e4d04e84615258709e02e6518d951ec584d84c45795f41bae592ff5",
+      "issues": [],
+      "item_id": "nac-rel-04",
+      "item_type": "RELATION",
+      "label": "BRANCH_CONTEXT nac-r01-chest-radiograph → nac-r06-basic-laboratory [parallel workup for suspected pneumonia]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "fdb7d150440e8149a17be2014f4afd43fb36e60012bddec8b33ec8aa0e5171fd",
+      "issues": [],
+      "item_id": "nac-rel-05",
+      "item_type": "RELATION",
+      "label": "SUPPORTS nac-r06-basic-laboratory → nac-r18-hospitalization",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "29e4eacc03c14a03b4972d371bbb549dd29cb3fd8cf9f44a3a45fcbf009e5453",
+      "issues": [],
+      "item_id": "nac-rel-06",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r18-hospitalization → nac-r07-hospital-laboratory [hospitalization indicated]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "2ee4bea791df2a59c8684e2bcd1d6c68811a1b6e1cd458d7a72359f35f2f0d4e",
+      "issues": [],
+      "item_id": "nac-rel-07",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r18-hospitalization → nac-r12-sputum-culture [hospitalization indicated]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "e7bd0d867ce01172176cfe96610aff2885dddc3728ca644915e323f89fba2fb1",
+      "issues": [],
+      "item_id": "nac-rel-08",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r18-hospitalization → nac-r14-filmarray [confirmed pneumonia and hospitalization indicated]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "8111f9acc011de0a0daf4ea47209aa6e71242dfb347d43872191017c449c2623",
+      "issues": [],
+      "item_id": "nac-rel-09",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r18-hospitalization → nac-r11-blood-cultures [hospitalized and blood-culture criteria met]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "5c73c978e98afa5402145427bec8fbe54ce0d138f60b6ee31575124c9c7abc5a",
+      "issues": [],
+      "item_id": "nac-rel-10",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r07-hospital-laboratory → nac-r08-severe-laboratory [severe context]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "cd9d25e402025928e478a87997debe0ddacd9a4e8d9e2f2e0ffbdc5653b9a565",
+      "issues": [],
+      "item_id": "nac-rel-10a",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r07-hospital-laboratory → nac-r09-desaturation-abg [desaturation]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "cc8e73c499436f30bed8d3c9583d0b4efd17795a27046c879c70f4e6ee67ac70",
+      "issues": [],
+      "item_id": "nac-rel-11",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r18-hospitalization → nac-r19-icu-direct [direct ICU/UCE indication]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "4db78682394c0ad9e4c9e21db42e866c02ace898b78cf009b89b326b384f6a52",
+      "issues": [],
+      "item_id": "nac-rel-12",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r18-hospitalization → nac-r20-icu-three-criteria [three or more listed criteria]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "c488576b462e8b3ddb00ceb24730900b06e5c1d18e8ec7bfbaf4f8ed874a48bb",
+      "issues": [],
+      "item_id": "nac-rel-13",
+      "item_type": "RELATION",
+      "label": "BRANCH_CONTEXT nac-r18-hospitalization → nac-r21-treatment-no-risk [treatment context from visually inspected table]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "a844bb8ee847207b3a7a3a0ebe44cd1c9cbc3873308111d336415d86c0fb1142",
+      "issues": [],
+      "item_id": "nac-rel-14",
+      "item_type": "RELATION",
+      "label": "BRANCH_CONTEXT nac-r18-hospitalization → nac-r22-treatment-pseudomonas [treatment context from visually inspected table]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "a1056a23bab858f6c7bba9ccffa82071be73c5ae0daecb2a38a9ea9236044a38",
+      "issues": [],
+      "item_id": "nac-rel-15",
+      "item_type": "RELATION",
+      "label": "BRANCH_CONTEXT nac-r18-hospitalization → nac-r23-treatment-mrsa-combined [treatment context from visually inspected table]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "e9a15d96679ca362509c7db1487e9a24765e3e01ffc643693d8aba89284b430b",
+      "issues": [],
+      "item_id": "nac-rel-16",
+      "item_type": "RELATION",
+      "label": "BRANCH_CONTEXT nac-r18-hospitalization → nac-r24-treatment-mrsa-only [treatment context from visually inspected table]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "59fdb853154e7d9339aaf3ecd7accef07ab94223e15373757a18aa621d46ba4c",
+      "issues": [],
+      "item_id": "nac-rel-17",
+      "item_type": "RELATION",
+      "label": "BRANCH_CONTEXT nac-r18-hospitalization → nac-r25-treatment-postviral [treatment context from visually inspected table]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "b9968f15a0446862d34ec203e413c9dceac4c151d43b4c6849249d8f3ec1a818",
+      "issues": [],
+      "item_id": "nac-rel-18",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r14-filmarray → nac-r26-adjust-to-results [molecular result available]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "e85f4986bd0e66aad4a1dfcf7d36dcfb3fdf31459dfbd402225307f3867b6568",
+      "issues": [],
+      "item_id": "nac-rel-19",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r12-sputum-culture → nac-r26-adjust-to-results [culture result available]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "94e1226a1594a3aa503aeeef5ad429842f596dd1f6be6cbdea2d0028f3cdce08",
+      "issues": [],
+      "item_id": "nac-rel-20",
+      "item_type": "RELATION",
+      "label": "FLOW nac-r21-treatment-no-risk → nac-r27-discharge [discharge criteria subsequently met]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "84f23ec7b0b2037f476e846e9e9cf450e66dbad1f391debbc5f0f3eb1c82e572",
+      "issues": [],
+      "item_id": "nac-rel-21",
+      "item_type": "RELATION",
+      "label": "FLOW nac-r22-treatment-pseudomonas → nac-r27-discharge [discharge criteria subsequently met]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "2c25c5ff4a8ad4cc200caf227b219616cfdea1141af22c0d7f301f2b4a90a3a2",
+      "issues": [],
+      "item_id": "nac-rel-22",
+      "item_type": "RELATION",
+      "label": "FLOW nac-r23-treatment-mrsa-combined → nac-r27-discharge [discharge criteria subsequently met]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "7e8c5914c41a9cc96a55da521b02b9e92ea1767e9de8cad83d787a2923864f7f",
+      "issues": [],
+      "item_id": "nac-rel-23",
+      "item_type": "RELATION",
+      "label": "FLOW nac-r24-treatment-mrsa-only → nac-r27-discharge [discharge criteria subsequently met]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "a20e4ba2e3732e83dd0cea2bbae3fdc8ed27ca6453d379cf901a99670dadf13b",
+      "issues": [],
+      "item_id": "nac-rel-24",
+      "item_type": "RELATION",
+      "label": "FLOW nac-r25-treatment-postviral → nac-r27-discharge [discharge criteria subsequently met]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "68836d1c6787fa9d54ae3ecefc8a76fb182a2b5570bccdb20036b173262c4c47",
+      "issues": [],
+      "item_id": "nac-rel-25",
+      "item_type": "RELATION",
+      "label": "FLOW nac-r27-discharge → nac-r28-discharge-education",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "8ed3558ee2215dea25746e237d220995e7c539b9458ee45d96b8916b6071eff5",
+      "issues": [],
+      "item_id": "nac-rel-26",
+      "item_type": "RELATION",
+      "label": "FLOW nac-r27-discharge → nac-r29-follow-up",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "9541367e37a6b18455e2021c0f2648058103dcc782026b5947ced496c8c45f4f",
+      "issues": [],
+      "item_id": "nac-rel-27",
+      "item_type": "RELATION",
+      "label": "SUPPORTS nac-r03-repeat-radiograph → nac-r02-diagnostic-support",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "dae71e24ff8449a1be8deae696e4d1d55e58227fea1ea84baf67f51bbcec3ccf",
+      "issues": [],
+      "item_id": "nac-rel-28",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r17-pleural-study → nac-r10-pleural-serum-tests [thoracentesis indicated]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "ea1cd7ca4eeac765f15a3c160c2d9fa8796b6c65a73312ac230d3bcfdc5e45fa",
+      "issues": [],
+      "item_id": "nac-rel-29",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r12-sputum-culture → nac-r13-induced-sputum [cannot produce spontaneous sample]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "fe747b5ff982b2178f726a1b2877ae586acdfe1db2a005366d80c280dbf1f1c2",
+      "issues": [],
+      "item_id": "nac-rel-30",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r14-filmarray → nac-r15-deep-filmarray [deep sample available and no SARS-CoV-2 suspicion]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "08cf20252f6caf3a3fb59a178e9cbc4e330953c563bd971cde50bd05cd786f40",
+      "issues": [],
+      "item_id": "nac-rel-31",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r14-filmarray → nac-r16-nasopharyngeal-panel [patient does not expectorate]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "0daf29d1419b6a1fd221458e46180f21fc39651b99de5902b9e2b82c9e52b1c8",
+      "issues": [],
+      "item_id": "nac-rel-32",
+      "item_type": "RELATION",
+      "label": "BRANCH nac-r02-diagnostic-support → nac-r17-pleural-study [qualifying presumed parapneumonic effusion]",
+      "state": "PROPOSED"
+    }
+  ],
+  "decisions": [],
+  "display_name": "<display name>",
+  "feedback": [],
+  "protocol_version_id": "CT-PL-193-v9",
+  "reviewer_id": "<reviewer_id>",
+  "role": "<role>",
+  "schema": "review-submission-v1"
+}
