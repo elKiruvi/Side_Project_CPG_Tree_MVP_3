@@ -1992,6 +1992,93 @@ polished clinician-facing review visualization may be built on top of the
 Phase 5/6 projection; the projection may never become a second source of
 truth.
 
+## Implementation Status — Phase 7A (clinical review workflow + review packages)
+
+Implemented on `feature/clinical-review-workflow`. Phase 7A prepares the
+workflow and packages for real clinical review. Phase 7B (real decision
+ingestion and adjudication) is explicitly PENDING EXTERNAL REVIEW: no
+qualified reviewer decision exists yet, and none was fabricated.
+
+### Review architecture
+
+- Reviewer identity: `cpg_tree.review.reviewer` — non-sensitive
+  `ReviewerRecord` (id, display name, role, optional organization) and an
+  optional `ReviewerRegistry` for audit-level validation. No authentication.
+- Verdicts: `ReviewVerdict` extended with `NEEDS_CLARIFICATION` and `DEFER`
+  (existing: `APPROVE`, `REJECT`, `REQUEST_CHANGES`, `ABSTAIN`).
+- Missing content: `cpg_tree.review.feedback` —
+  `ReviewFeedback`/`ReviewFeedbackType` (`MISSING_RULE`, `MISSING_RELATION`,
+  `MISSING_DECISION`, `MISSING_CONDITION`, `MISSING_ACTION`, `MISSING_BRANCH`,
+  `MISSING_EVIDENCE`). Feedback never auto-creates approved knowledge.
+- Ingestion: `cpg_tree.review.ingestion` — deterministic, fail-closed parser
+  for `review-submission-v1` JSON against an exact candidate graph (known
+  candidate id/hash, protocol match, optional reviewer registry, valid
+  verdict/timestamp, non-stale binding, well-formed REQUEST_CHANGES payload).
+  Import is append-only JSONL; duplicate record ids are rejected without
+  writing. `REQUEST_CHANGES` records corrections but never mutates the
+  candidate.
+- Policy: `cpg_tree.review.policy` extended with distinct-reviewer counting
+  (N-of-M, unanimity), `REVIEW_CONFLICT` for disagreement (never auto-
+  resolved), blocking verdicts (`REJECT`/`REQUEST_CHANGES`), and stale/
+  current decision filters.
+- Compiler: `cpg_tree.review.compiler` — generic interface that can produce
+  `ApprovedRule`/`ApprovedRelation`/`ApprovedKnowledgePackage` ONLY from
+  current, policy-satisfying, real decisions. BLOCKED candidates and
+  unresolved blocking Issues prevent approval when required. Tested with
+  synthetic fixtures only.
+- Status: `cpg_tree.review.status` — per-protocol review progress
+  (reviewed/pending/accepted/rejected/changes/stale/blocked), never combined
+  across protocols.
+- CLI: `python -m cpg_tree review validate|import|status` with
+  `--graph <candidate_graph.json>`.
+- Packages: `cpg_tree.review.package` builds the self-contained,
+  hash-bound, portable review package; `cpg_tree.review.package_validation`
+  validates it (manifest integrity, portable relative paths, bundle hashes,
+  no bundled source PDFs, `AWAITING_CLINICAL_REVIEW`, zero approvals,
+  protocol isolation).
+
+### Review packages
+
+- NAC: `artifacts/phase7/nac/` — `review_bundle/` (index.html, review tree
+  HTML/SVG, pathway summary, technical clinical questions, clinician-friendly
+  `review_questions.md` with 24 questions in Spanish, technical validation
+  summary, instructions, evidence index), `review_template.json` (catalog of
+  all 29 rules and 33 relations with exact hashes), `review_manifest.json`.
+- ITU: `artifacts/phase7/itu/` — same structure, 29 clinician-friendly
+  questions, catalog of 38 rules and 46 relations.
+- Both packages bind document SHA-256, graph content hash, per-candidate
+  hashes, review-tree hashes, and the Phase 6 validation-report hash, with
+  repository-relative portable paths (relocation-tested).
+
+### Real review status
+
+- NAC: `AWAITING_CLINICAL_REVIEW` — real approval count 0.
+- ITU: `AWAITING_CLINICAL_REVIEW` — real approval count 0.
+- REAL APPROVAL COUNT = 0. No `ApprovedRule`, `ApprovedRelation`, or
+  `ApprovedKnowledgePackage` was created for real protocols.
+- `READY_FOR_CLINICAL_REVIEW` ≠ `CLINICALLY_APPROVED`; approval requires real
+  reviewer decisions satisfying a policy the clinic has not yet selected
+  (packages record `approval_policy: policy_pending`).
+
+### Tests and quality
+
+- 38 new tests: 25 synthetic unit tests (`tests/unit/review/
+  test_phase7_workflow.py`) and 13 integration tests
+  (`tests/integration/candidates/test_phase7_artifacts.py`), covering
+  ingestion validation, staleness, append-only history, policies (1, 2,
+  2-of-3, distinct reviewers, conflict), MODIFY semantics, missing-content
+  feedback, synthetic compilation, package portability, and zero real
+  approvals.
+
+### Exact next step (operational)
+
+Send each `artifacts/phase7/<protocol>/review_bundle/` (start at
+`index.html`) plus `review_template.json` and `review_instructions.md` to
+qualified clinic personnel. Ingest returned templates with
+`cpg-tree review validate/import`; adjudicate disagreements and then select
+the approval policy (Phase 7B). Do not begin Phase 8 (final clinician-facing
+visualization/application) before real review feedback exists.
+
 ## Phase 0: base, security, and Git
 
 - **Objective:** establish an independent, reproducible, private MVP 3

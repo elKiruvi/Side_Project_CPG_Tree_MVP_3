@@ -1,0 +1,787 @@
+{
+  "catalog": [
+    {
+      "candidate_revision": 1,
+      "content_hash": "8938dac42354358f92ae7139974fef08ac9327acc605ddd3c92904590ad8fc59",
+      "issues": [],
+      "item_id": "itu-r01-asymptomatic-bacteriuria-classification",
+      "item_type": "RULE",
+      "label": "Classify as asymptomatic bacteriuria",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "b7efb14e3df2cbce7f28b97c617d46385e31de82331a55eda16d15e0213a1be6",
+      "issues": [],
+      "item_id": "itu-r02-symptomatic-uti-classification",
+      "item_type": "RULE",
+      "label": "Classify as urinary tract infection",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "3c60946aef12e06be0a72e798e507343c73a5aa957e8065cc03ffe0ec16377eb",
+      "issues": [
+        "itu-issue-complicated-definitions"
+      ],
+      "item_id": "itu-r03-complicated-structural-definition",
+      "item_type": "RULE",
+      "label": "Classify under the structural/functional complicated-UTI definition",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "ee0c757c0bebf0a897205c477d16d27caf49527c3d32b3465b8e08854c21953b",
+      "issues": [],
+      "item_id": "itu-r04-lower-uti-classification",
+      "item_type": "RULE",
+      "label": "Classify as lower UTI",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "a8a0c7a3c11e3a66fe5c56ee2d0be14e7bad05b1e1af42f8510a68ae56959054",
+      "issues": [],
+      "item_id": "itu-r05-upper-uti-classification",
+      "item_type": "RULE",
+      "label": "Classify as upper UTI / pyelonephritis",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "e13e890d21a00f8ce533ddb05836ce0882bcf1e07c22320f3096f3c9a63a2933",
+      "issues": [
+        "itu-issue-complicated-definitions"
+      ],
+      "item_id": "itu-r06-complicated-beyond-bladder-definition",
+      "item_type": "RULE",
+      "label": "Classify under the beyond-bladder complicated-UTI definition",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "42ca554180b512914d71eb5ac4b3d0e35d102dc21a3db93586154fe87c17c1ff",
+      "issues": [],
+      "item_id": "itu-r07-urinalysis",
+      "item_type": "RULE",
+      "label": "Obtain urine cytochemistry",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "c6f7017763a314c28b1a72676efd343b9c2cb015442f46501f4af59bc594daec",
+      "issues": [],
+      "item_id": "itu-r08-normal-dipstick",
+      "item_type": "RULE",
+      "label": "Exclude UTI diagnosis",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "1ccb43698e4917210c448bb172d75b1b1ec6ab9d10cad8e69eb40df03e3a141a",
+      "issues": [],
+      "item_id": "itu-r09-urine-gram",
+      "item_type": "RULE",
+      "label": "Obtain Gram stain of uncentrifuged urine to guide empirical treatment",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "795746d26c255137ddf7eab0bfc3f69afd40492080b02bb6677db379837a4384",
+      "issues": [],
+      "item_id": "itu-r10-urine-culture",
+      "item_type": "RULE",
+      "label": "Obtain urine culture for bacteriuria confirmation and antimicrobial susceptibility",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "5f5041f989e6794175daa9982960a9037a7b6eec00481802c1e89b263b5612bf",
+      "issues": [],
+      "item_id": "itu-r11-culture-positive-spontaneous",
+      "item_type": "RULE",
+      "label": "Classify spontaneous urine culture as positive",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "5506c9bc552a3c74dea99b5f51bbb9834c5f3649ee6aae78485c85e448578efe",
+      "issues": [],
+      "item_id": "itu-r12-culture-positive-symptomatic",
+      "item_type": "RULE",
+      "label": "Classify culture as positive in symptomatic context",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "6cb133d849d9758d58f394f23e69ee11caa712affb235ac30a527c6232222289",
+      "issues": [],
+      "item_id": "itu-r13-culture-positive-new-catheter",
+      "item_type": "RULE",
+      "label": "Classify newly inserted catheter urine culture as positive",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "c54e4a416dc3a5efa5627933ad7a91e68622802977f41116ae4afa78001ca5b5",
+      "issues": [],
+      "item_id": "itu-r14-sample-before-antibiotic",
+      "item_type": "RULE",
+      "label": "Collect urine sample before first antibiotic dose",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "71c7b9bab1223d4fd06373f73772ac258188a49636ae7da22efae5af9d377694",
+      "issues": [],
+      "item_id": "itu-r15-permanent-catheter-sampling",
+      "item_type": "RULE",
+      "label": "Replace catheter and collect urine from the newly inserted catheter after discarding the initial 15-30 mL",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "4bac9c79b4c59af51ee14ff0eb37fd5b2aa5686103bd1225c49a8b5ba7ae0da1",
+      "issues": [],
+      "item_id": "itu-r16-hospital-blood-tests",
+      "item_type": "RULE",
+      "label": "Obtain CBC, ionogram, renal function, and C-reactive protein",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "661542308870837cb462df8aab9bb0cba0c303e89ca893c099f16366f1f5fd34",
+      "issues": [],
+      "item_id": "itu-r17-blood-cultures",
+      "item_type": "RULE",
+      "label": "Obtain blood cultures",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "6997a182fd27eefeba1202f92f46f93a1216ca92aa8147caf4c4632bac813d07",
+      "issues": [],
+      "item_id": "itu-r18-urgent-imaging",
+      "item_type": "RULE",
+      "label": "Obtain urgent urinary ultrasound or contrast CT",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "1a362cebedd347d254ec2b94ba12dde94005eafbe84e61b7d4dc8df3be567403",
+      "issues": [],
+      "item_id": "itu-r19-contrast-ct",
+      "item_type": "RULE",
+      "label": "Obtain contrast CT",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "c779ffec32ef287ddc6cfe24b90ebe1d5906e381be6873b58706ab019719d7cd",
+      "issues": [],
+      "item_id": "itu-r20-uro-ct",
+      "item_type": "RULE",
+      "label": "Obtain CT urography",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "4f8e973becffdda48536626022af90c7fffa69b21d6a685ea57df9694f4ae93c",
+      "issues": [],
+      "item_id": "itu-r21-functional-ultrasound",
+      "item_type": "RULE",
+      "label": "Obtain urinary-tract ultrasound with post-void residual measurement",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "468f34598201600e64a0f63aa0f88152596f801b09954ba99e3c07ea558305e8",
+      "issues": [],
+      "item_id": "itu-r22-pregnancy-ultrasound",
+      "item_type": "RULE",
+      "label": "Obtain renal ultrasound",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "41f4c81f89c9dac06a10d22fff3a3f630e52437254c0774da33a45761444bdd6",
+      "issues": [],
+      "item_id": "itu-r23-asb-treatment-eligibility",
+      "item_type": "RULE",
+      "label": "Treat asymptomatic bacteriuria",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "d542e1db1312f24e8e3cc242335623695f800d45bc6127a97724d732e1989ec2",
+      "issues": [
+        "itu-issue-hospital-list-operator",
+        "itu-issue-upper-hospital-outpatient"
+      ],
+      "item_id": "itu-r24-hospitalization",
+      "item_type": "RULE",
+      "label": "Admit to hospital",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "3ea59f307fd8cfc2bd35b8c67fd6eb5a53fe61cd806208a8e90b31382b98f65b",
+      "issues": [
+        "itu-issue-pediatric-adult-scope"
+      ],
+      "item_id": "itu-r25-pediatric-hospitalization-source",
+      "item_type": "RULE",
+      "label": "Hospitalize",
+      "state": "BLOCKED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "da5418438fa0a540dd43a6a153b575477234833821652a0bb01e8736a567e813",
+      "issues": [
+        "itu-issue-oral-discharge",
+        "itu-issue-transition-list-operator"
+      ],
+      "item_id": "itu-r26-oral-step-or-discharge",
+      "item_type": "RULE",
+      "label": "Eligible for oral therapy transition and/or discharge",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "8f43f63d7dd9a446dcf4e39daa43ef6b5d8f8d4c6f7948e75254f885baee9de4",
+      "issues": [],
+      "item_id": "itu-r27-lower-treatment",
+      "item_type": "RULE",
+      "label": "Choose one: nitrofurantoin 100 mg PO every 6 hours for 5 days; cephalexin 500 mg PO every 6 hours for 5 days; or fosfomycin 3 g PO once (prefer fosfomycin for recurrent UTI or antimicrobial exposure in the last 90 days)",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "ae2872e5550e9e1241e03febf7792934646c8ef216315df872c0138bb73b935d",
+      "issues": [],
+      "item_id": "itu-r28-asb-treatment",
+      "item_type": "RULE",
+      "label": "Choose one: nitrofurantoin 100 mg PO every 6 hours for 5 days; cephalexin 500 mg PO every 6 hours for 5 days; or fosfomycin 3 g PO once, only in the source-listed treatment-eligible contexts",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "bfafdda2de6ba3fe4e6a2936b890ba59bff6602707ff6d6c58199df3f85e7fd6",
+      "issues": [
+        "itu-issue-upper-hospital-outpatient"
+      ],
+      "item_id": "itu-r29-upper-outpatient-treatment",
+      "item_type": "RULE",
+      "label": "Cephalexin 500 mg PO every 6 hours for 5-7 days; reassess with urine culture at 48 hours for adjustment",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "3bb50cb5ec64c9c187a721537f2beb31ac43bdf0ba122718d109fe571deb44cc",
+      "issues": [],
+      "item_id": "itu-r30-upper-inpatient-no-resistant-risk",
+      "item_type": "RULE",
+      "label": "Choose cefazolin 1 g IV every 8 hours or amikacin 15 mg/kg IV daily for 7 days",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "ebc6da53aaa2e195e808da726b47075124d7bb83f574a2c3c6ffc3b84a3ce4d3",
+      "issues": [],
+      "item_id": "itu-r31-upper-inpatient-resistant-no-shock",
+      "item_type": "RULE",
+      "label": "Choose piperacillin/tazobactam 4.5 g IV every 8 hours or amikacin 15 mg/kg IV daily for 7 days; amikacin is avoided in shock",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "bf079a7a320c99507aad21d51c8f67430725d20e5261355cfc908f0f5dd6b05c",
+      "issues": [],
+      "item_id": "itu-r32-upper-inpatient-resistant-shock",
+      "item_type": "RULE",
+      "label": "Administer meropenem 1 g IV every 8 hours empirically for 7 days",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "5447116e3801b246d9ba5f3d2a89d8e7b15465d439e75817387d2d1e09b97814",
+      "issues": [],
+      "item_id": "itu-r33-pregnancy-asb-treatment",
+      "item_type": "RULE",
+      "label": "Choose nitrofurantoin 100 mg every 6 hours for 5 days, cephalexin 500 mg every 6 hours for 5 days, or fosfomycin 3 g once; table states no control culture and no preventive therapy",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "28a8be1f768891be2e5f54fd566fea8ca9d64ec9f6dca2ec9de22aef4d3ca42d",
+      "issues": [],
+      "item_id": "itu-r34-pregnancy-lower-treatment",
+      "item_type": "RULE",
+      "label": "Choose nitrofurantoin 100 mg every 6 hours for 5 days, cephalexin 500 mg every 6 hours for 5 days, or fosfomycin 3 g once; table states no control culture",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "7430f42355d82f6e6f53c852ca74d65b1cf7f25786d2f18c3831c0a614e1c065",
+      "issues": [
+        "itu-issue-pregnancy-cross-page"
+      ],
+      "item_id": "itu-r35-pregnancy-lower-prevention",
+      "item_type": "RULE",
+      "label": "Preventive therapy options listed: nitrofurantoin 100 mg daily, cephalexin 500 mg daily, TMP-SMX 480 mg daily, or fosfomycin 3 g weekly; gestational restrictions require review",
+      "state": "BLOCKED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "c1716fcd6ef5ac1bdadd3193fb2d5666b795256d4759f2b458bc282d7dc9935d",
+      "issues": [],
+      "item_id": "itu-r36-pregnancy-upper-treatment",
+      "item_type": "RULE",
+      "label": "For 7 days choose cefazolin 1 g IV every 8 hours without resistant Gram-negative risk; piperacillin/tazobactam 4.5 g IV every 8 hours with risk and no shock; or meropenem 1 g IV every 8 hours with risk and shock",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "c77728cda4e7b2b9923e071aeaccef4e1c5e6c837dc1f66789ea7bfbdfe6e0a0",
+      "issues": [
+        "itu-issue-pregnancy-cross-page"
+      ],
+      "item_id": "itu-r37-pregnancy-upper-prevention",
+      "item_type": "RULE",
+      "label": "Preventive therapy is indicated; select nitrofurantoin, cephalexin, TMP-SMX, or weekly fosfomycin from culture/susceptibility, applying the stated gestational restrictions and possible week-34 change",
+      "state": "BLOCKED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "d72a0e40bdb090bcb8479d20688578e7fa9ddd974949ff69f3755c0689263c06",
+      "issues": [],
+      "item_id": "itu-r38-adjust-to-culture",
+      "item_type": "RULE",
+      "label": "Adjust empirical therapy according to urine culture and antibiogram",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "faff4cf3bd1bb7e19f64a1212e4550eedcf77bf1191f8749aa4fd192411a4084",
+      "issues": [],
+      "item_id": "itu-rel-01",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r01-asymptomatic-bacteriuria-classification → itu-r23-asb-treatment-eligibility [pregnancy or qualifying invasive urinary procedure]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "10601081d92200ca4eba66d3a642355336b8b09efb36c7d3cee1179d5032986f",
+      "issues": [],
+      "item_id": "itu-rel-02",
+      "item_type": "RELATION",
+      "label": "FLOW itu-r23-asb-treatment-eligibility → itu-r28-asb-treatment",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "02978c8ab2bb1b93df16df114bd087cfbc6288465f0b9f5720d8467b8bb11ba2",
+      "issues": [],
+      "item_id": "itu-rel-03",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r02-symptomatic-uti-classification → itu-r04-lower-uti-classification [lower features]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "dc6027890718c9371caaecd16a7b1b1f74cf99cdf92059f5a05a5ee1b181ec63",
+      "issues": [],
+      "item_id": "itu-rel-04",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r02-symptomatic-uti-classification → itu-r05-upper-uti-classification [upper features]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "908d7dadb9a200683de02455cff569a717f9ee33e923d1e2e0045802b3951a7d",
+      "issues": [],
+      "item_id": "itu-rel-05",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r02-symptomatic-uti-classification → itu-r07-urinalysis [emergency diagnostic workup]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "bb3ff79ed6b5c88b1a8456c91ae3026f981254a2f744884eac48d3ecaa452230",
+      "issues": [],
+      "item_id": "itu-rel-06",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r02-symptomatic-uti-classification → itu-r09-urine-gram [emergency diagnostic workup]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "747a4b8e6e7be97b3aadbae8e0749cb7a803dee653e518ebf702891dbe9b6662",
+      "issues": [],
+      "item_id": "itu-rel-07",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r02-symptomatic-uti-classification → itu-r10-urine-culture [culture indicated unless its distinct exception applies]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "eeacd849ca8c15ad589c21ad08074f2a2111d9e14979a52d33c75d3532fee381",
+      "issues": [],
+      "item_id": "itu-rel-08",
+      "item_type": "RELATION",
+      "label": "FLOW itu-r10-urine-culture → itu-r14-sample-before-antibiotic",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "d869862d9525d0bcb90368368551fe1aae0da198cad09342c89b60862373a96c",
+      "issues": [],
+      "item_id": "itu-rel-09",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r10-urine-culture → itu-r15-permanent-catheter-sampling [permanent catheter user]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "2af6fdc26357965d9b248ba98c3e04d29af287f0156bdab84c26fc49aeee81a8",
+      "issues": [],
+      "item_id": "itu-rel-10",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r10-urine-culture → itu-r11-culture-positive-spontaneous [appropriately obtained spontaneous sample]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "e57f794b6db4b2ba2ed5c896c8de4a4837bc67eb072b136501f448112284f278",
+      "issues": [],
+      "item_id": "itu-rel-11",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r10-urine-culture → itu-r12-culture-positive-symptomatic [symptomatic context]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "f18d0f4bc90b8478c6969392e53291110fedc0bef9ece0fa243f82116f1613f3",
+      "issues": [],
+      "item_id": "itu-rel-12",
+      "item_type": "RELATION",
+      "label": "FLOW itu-r15-permanent-catheter-sampling → itu-r13-culture-positive-new-catheter",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "6651fa43de113d59b4c120de83689cf6c33aa98b6df3c56ab9c38d695058c473",
+      "issues": [],
+      "item_id": "itu-rel-13",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r05-upper-uti-classification → itu-r17-blood-cultures [fever, hypothermia, or septic shock]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "3da2682f4a22a155c0c0682041d05747f6819989f22dd45bb200eee8f924c65e",
+      "issues": [],
+      "item_id": "itu-rel-14",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r02-symptomatic-uti-classification → itu-r18-urgent-imaging [urgent-imaging context (shock, acute renal failure, local complication, or fever persisting after 72 h of correct therapy)]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "387052435702d858fbc7c67ff132b56911af6c7c56664d954fbef01637f0003a",
+      "issues": [],
+      "item_id": "itu-rel-15",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r18-urgent-imaging → itu-r19-contrast-ct [small abscess/local nephritis suspected]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "efee688dec73029845385d73f3fc2012548f4b2c296690396123d2412c44800d",
+      "issues": [],
+      "item_id": "itu-rel-16",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r18-urgent-imaging → itu-r20-uro-ct [structural abnormality suspected]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "d791f19030c42e07edeef32d4e7ff7867db4ad21a9a9319ec879e8b6b0ee1f18",
+      "issues": [],
+      "item_id": "itu-rel-17",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r18-urgent-imaging → itu-r21-functional-ultrasound [functional abnormality suspected]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "86040c501a281d41af6ef0d44f1cdf751196a7a09d09d778fa128f34f4c0c0b7",
+      "issues": [],
+      "item_id": "itu-rel-18",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r05-upper-uti-classification → itu-r24-hospitalization [source-listed hospitalization indication]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "8c0a59c7f8aacf2e24ab5ae9047918f6bcf345205036e2794fa233087317b72b",
+      "issues": [],
+      "item_id": "itu-rel-19",
+      "item_type": "RELATION",
+      "label": "FLOW itu-r24-hospitalization → itu-r16-hospital-blood-tests",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "77c4ac70b92accc1a2d9190197732cdc93a08db5dc88ca07fe2eba9499158b2a",
+      "issues": [],
+      "item_id": "itu-rel-20",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r24-hospitalization → itu-r30-upper-inpatient-no-resistant-risk [upper UTI without resistant Gram-negative risk]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "88cfb7b156823c5c70fdc825a5da5d6374c4f4c980585b897e95104090c3396c",
+      "issues": [],
+      "item_id": "itu-rel-21",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r24-hospitalization → itu-r31-upper-inpatient-resistant-no-shock [resistant Gram-negative risk without shock]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "27babcc473d25c391b39df09224fab6d7d849d981f1f38bf564c942fc11760dd",
+      "issues": [],
+      "item_id": "itu-rel-22",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r24-hospitalization → itu-r32-upper-inpatient-resistant-shock [resistant Gram-negative risk with shock]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "b04e0352ac4968eea7a785233f54654c676bfcc55daa003d6e3a3f43433a2671",
+      "issues": [
+        "itu-issue-upper-hospital-outpatient"
+      ],
+      "item_id": "itu-rel-23",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r05-upper-uti-classification → itu-r29-upper-outpatient-treatment [source also names outpatient upper UTI; conflict unresolved]",
+      "state": "BLOCKED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "68049078c0024459481780d844c452439a3fe31f97ee2ab19f9fc83d883e4bea",
+      "issues": [],
+      "item_id": "itu-rel-24",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r04-lower-uti-classification → itu-r27-lower-treatment [lower UTI]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "9c27dbbbbbc157542c1934d0ffc365900e930a66905fd2caaf8ac29ab8ef309e",
+      "issues": [],
+      "item_id": "itu-rel-25",
+      "item_type": "RELATION",
+      "label": "BRANCH_CONTEXT itu-r22-pregnancy-ultrasound → itu-r36-pregnancy-upper-treatment [pregnant upper-UTI context]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "00097ed3a683c322d4c6644c4c619f2032625130fc6b0f792d8c4d887669f887",
+      "issues": [],
+      "item_id": "itu-rel-26",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r01-asymptomatic-bacteriuria-classification → itu-r33-pregnancy-asb-treatment [pregnancy]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "85736179ee81e8e6456f3647edda297ae0aaf91a5edcd52d75b07a904bf1760d",
+      "issues": [],
+      "item_id": "itu-rel-27",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r04-lower-uti-classification → itu-r34-pregnancy-lower-treatment [pregnancy]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "412fa0ada3f6e85d47d6012e363151c8310fdada1ea8eef7427e972c2b989adf",
+      "issues": [],
+      "item_id": "itu-rel-28",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r34-pregnancy-lower-treatment → itu-r35-pregnancy-lower-prevention [recurrent infection]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "bf42bc97296b71733708e0d2bfc8260a2598a7bc06fe20665cc67d5b5c7c6cb6",
+      "issues": [],
+      "item_id": "itu-rel-29",
+      "item_type": "RELATION",
+      "label": "BRANCH_CONTEXT itu-r36-pregnancy-upper-treatment → itu-r37-pregnancy-upper-prevention [pregnant upper-UTI context]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "3540d00dd46b549f585bb154aaef3406d4df91af328be136553acf87155a4ffb",
+      "issues": [],
+      "item_id": "itu-rel-30",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r27-lower-treatment → itu-r38-adjust-to-culture [culture/antibiogram available]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "618228711ee43ff99161bc4e80d08870e744695795a3c038b8cb3958d9d7c0b7",
+      "issues": [],
+      "item_id": "itu-rel-31",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r28-asb-treatment → itu-r38-adjust-to-culture [culture/antibiogram available]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "5620cbe344cf76e3e7ca5b9264b413707759f8f2e3b742d90cf54a1845b4d0c6",
+      "issues": [],
+      "item_id": "itu-rel-32",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r29-upper-outpatient-treatment → itu-r38-adjust-to-culture [culture/antibiogram available]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "a893bbe47a29be9c50a05a8cdd181bc7acdd6fa10ef82ce8b8248f75b0912fa9",
+      "issues": [],
+      "item_id": "itu-rel-33",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r30-upper-inpatient-no-resistant-risk → itu-r38-adjust-to-culture [culture/antibiogram available]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "0a456fff26d34eae90e649aa22d1336b5bde7ae76382142f04dfa04f567dd0ec",
+      "issues": [],
+      "item_id": "itu-rel-34",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r31-upper-inpatient-resistant-no-shock → itu-r38-adjust-to-culture [culture/antibiogram available]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "89f6720c0965e11c2d0ff9fff96a05a9a68f27be48f83b330126db27c3ea956c",
+      "issues": [],
+      "item_id": "itu-rel-35",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r32-upper-inpatient-resistant-shock → itu-r38-adjust-to-culture [culture/antibiogram available]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "ed23cf4af435881fba983047ede134981a0cc3aa440c324acd8516ce8781bb38",
+      "issues": [],
+      "item_id": "itu-rel-36",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r33-pregnancy-asb-treatment → itu-r38-adjust-to-culture [culture/antibiogram available]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "6cd956272baee817cd276202a1f9f5b6ab2b15b0a31ab5f3a9acd775c8655a53",
+      "issues": [],
+      "item_id": "itu-rel-37",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r34-pregnancy-lower-treatment → itu-r38-adjust-to-culture [culture/antibiogram available]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "2121a8c91be91dcec50e9d15c2a5f4d769292a0ef35bb0f693fe6372d25c1c76",
+      "issues": [],
+      "item_id": "itu-rel-38",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r36-pregnancy-upper-treatment → itu-r38-adjust-to-culture [culture/antibiogram available]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "c2a8266385694ae4597a725d51792cf78afd237a1a5b5129ff097e7b3a49bb4c",
+      "issues": [],
+      "item_id": "itu-rel-39",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r30-upper-inpatient-no-resistant-risk → itu-r26-oral-step-or-discharge [all listed criteria met]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "29dd79ebc1bd962357eadad904caac2e8362da9e3bb29f3736431bcdc10376bf",
+      "issues": [],
+      "item_id": "itu-rel-40",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r31-upper-inpatient-resistant-no-shock → itu-r26-oral-step-or-discharge [all listed criteria met]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "89eb83c393fc7748b98dd4af184d262a91d91d21ae4e5e7ba767dc26c03cb036",
+      "issues": [],
+      "item_id": "itu-rel-41",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r32-upper-inpatient-resistant-shock → itu-r26-oral-step-or-discharge [all listed criteria met]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "75b424c614ae330f19ed58e8c8398ff7cbfcf1f6e41a357ef0f5af08d4c6df50",
+      "issues": [],
+      "item_id": "itu-rel-42",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r02-symptomatic-uti-classification → itu-r22-pregnancy-ultrasound [pregnancy with listed ultrasound indications]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "9527d9b670fb74ec1f7369b25ca43cf919c53fd4d5cc4d848810985f22395eef",
+      "issues": [],
+      "item_id": "itu-rel-43",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r07-urinalysis → itu-r08-normal-dipstick [normal dipstick and low suspicion]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "fa1dde64dbec01e80b51a94aed4c00fefcb127bb14a92f063ca23cb1e67f1b94",
+      "issues": [],
+      "item_id": "itu-rel-44",
+      "item_type": "RELATION",
+      "label": "SUPPORTS itu-r09-urine-gram → itu-r27-lower-treatment, itu-r29-upper-outpatient-treatment, itu-r30-upper-inpatient-no-resistant-risk, itu-r31-upper-inpatient-resistant-no-shock, itu-r32-upper-inpatient-resistant-shock [Gram informs empirical treatment choice]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "d4104973c574554c1c369882397f017bc9f38a0c58cfd3807729416469cd3c5e",
+      "issues": [],
+      "item_id": "itu-rel-45",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r37-pregnancy-upper-prevention → itu-r38-adjust-to-culture [culture/susceptibility available]",
+      "state": "PROPOSED"
+    },
+    {
+      "candidate_revision": 1,
+      "content_hash": "94bafe209a69908aef8a1e48397517136f93b1843248a31e2d011e8fefaaa9e7",
+      "issues": [],
+      "item_id": "itu-rel-46",
+      "item_type": "RELATION",
+      "label": "BRANCH itu-r35-pregnancy-lower-prevention → itu-r38-adjust-to-culture [culture/susceptibility available]",
+      "state": "PROPOSED"
+    }
+  ],
+  "decisions": [],
+  "display_name": "<display name>",
+  "feedback": [],
+  "protocol_version_id": "CT-PL-197-v06",
+  "reviewer_id": "<reviewer_id>",
+  "role": "<role>",
+  "schema": "review-submission-v1"
+}

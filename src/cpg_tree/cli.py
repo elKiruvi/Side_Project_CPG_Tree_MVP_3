@@ -23,10 +23,20 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from cpg_tree.candidates.graph import CandidateGraph
+from cpg_tree.candidates.graph_serialization import load_candidate_graph
 from cpg_tree.engine import Case, evaluate_package
 from cpg_tree.knowledge.protocol import ProtocolVersion
 from cpg_tree.reconciliation.io import load_reconciliation
 from cpg_tree.reconciliation.model import ReconciliationInventory
+from cpg_tree.review.feedback import ReviewFeedback
+from cpg_tree.review.ingestion import (
+    append_review_records,
+    load_review_records,
+    load_review_submission,
+)
+from cpg_tree.review.model import ReviewDecision
+from cpg_tree.review.status import compute_review_status, render_review_status
 from cpg_tree.validation import FindingSeverity, validate_package
 from cpg_tree.views.case_loader import load_case
 from cpg_tree.views.discovery import discover_protocols, load_protocol
@@ -145,6 +155,38 @@ def build_parser() -> argparse.ArgumentParser:  # noqa: PLR0915
     )
     _add_json_argument(evaluate_parser)
     evaluate_parser.set_defaults(handler=_cmd_evaluate)
+
+    review_parser = subparsers.add_parser(
+        "review", help="clinical review workflow: validate, import, status"
+    )
+    review_subparsers = review_parser.add_subparsers(dest="review_action", required=True)
+
+    review_validate = review_subparsers.add_parser(
+        "validate", help="validate a returned review submission fail-closed"
+    )
+    review_validate.add_argument("submission", help="path to the review submission JSON")
+    review_validate.add_argument("--graph", required=True, help="path to candidate_graph.json")
+    _add_json_argument(review_validate)
+    review_validate.set_defaults(handler=_cmd_review_validate)
+
+    review_import = review_subparsers.add_parser(
+        "import", help="validate and append review records to an append-only history"
+    )
+    review_import.add_argument("submission", help="path to the review submission JSON")
+    review_import.add_argument("--graph", required=True, help="path to candidate_graph.json")
+    review_import.add_argument("--out", required=True, help="path to the JSONL review history")
+    _add_json_argument(review_import)
+    review_import.set_defaults(handler=_cmd_review_import)
+
+    review_status = review_subparsers.add_parser(
+        "status", help="summarize review progress for one protocol"
+    )
+    review_status.add_argument("--graph", required=True, help="path to candidate_graph.json")
+    review_status.add_argument(
+        "--decisions", default=None, help="path to the JSONL review history (optional)"
+    )
+    _add_json_argument(review_status)
+    review_status.set_defaults(handler=_cmd_review_status)
 
     return parser
 
@@ -393,3 +435,78 @@ def _cmd_evaluate(args: argparse.Namespace) -> int:
     else:
         print(render_evaluation(result, package, case, show_expressions=args.show_expressions))
     return EXIT_OK
+
+
+def _cmd_review_validate(args: argparse.Namespace) -> int:
+    graph = _load_candidate_graph(Path(args.graph))
+    submission = load_review_submission(Path(args.submission), graph)
+    payload = {
+        "protocol_version_id": submission.protocol_version_id,
+        "reviewer_id": submission.reviewer_id,
+        "decisions": len(submission.decisions),
+        "feedback": len(submission.feedback),
+        "errors": [
+            finding.code
+            for finding in submission.findings
+            if finding.severity is FindingSeverity.ERROR
+        ],
+        "warnings": [
+            finding.code
+            for finding in submission.findings
+            if finding.severity is FindingSeverity.WARNING
+        ],
+        "valid": submission.is_valid,
+    }
+    if args.json:
+        _print_json(payload)
+    else:
+        print(f"review submission valid: {submission.is_valid}")
+        print(f"decisions accepted: {len(submission.decisions)}")
+        print(f"feedback accepted: {len(submission.feedback)}")
+        for finding in submission.findings:
+            if finding.severity is FindingSeverity.ERROR:
+                print(f"error: {finding.code} — {finding.message}")
+    return EXIT_OK if submission.is_valid else EXIT_ERROR
+
+
+def _cmd_review_import(args: argparse.Namespace) -> int:
+    graph = _load_candidate_graph(Path(args.graph))
+    submission = load_review_submission(Path(args.submission), graph)
+    if not submission.is_valid:
+        raise ValueError(
+            f"review submission has {submission.error_count} error(s); refusing to import"
+        )
+    records: tuple[ReviewDecision | ReviewFeedback, ...] = (
+        *submission.decisions,
+        *submission.feedback,
+    )
+    history = append_review_records(Path(args.out), records)
+    if args.json:
+        _print_json(
+            {
+                "imported": len(records),
+                "history": str(history),
+            }
+        )
+    else:
+        print(f"imported {len(records)} review record(s) into {history}")
+    return EXIT_OK
+
+
+def _cmd_review_status(args: argparse.Namespace) -> int:
+    graph = _load_candidate_graph(Path(args.graph))
+    decisions: tuple[ReviewDecision, ...] = ()
+    if args.decisions:
+        decisions = load_review_records(Path(args.decisions))
+    status = compute_review_status(graph, decisions)
+    if args.json:
+        _print_json(status.to_dict())
+    else:
+        print(render_review_status(status))
+    return EXIT_OK
+
+
+def _load_candidate_graph(path: Path) -> CandidateGraph:
+    if not path.is_file():
+        raise ValueError(f"candidate graph not found: {path}")
+    return load_candidate_graph(path.read_text(encoding="utf-8"))

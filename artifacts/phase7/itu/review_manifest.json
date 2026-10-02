@@ -1,0 +1,64 @@
+{
+  "approval_policy": "policy_pending",
+  "approved_knowledge_packages": 0,
+  "approved_relations": 0,
+  "approved_rules": 0,
+  "bundle_files": [
+    {
+      "name": "index.html",
+      "path": "artifacts/phase7/itu/review_bundle/index.html",
+      "sha256": "f4435c73bf9ec25477cde436e02c0c092d6741e73080fcfb021685f68866ada6"
+    },
+    {
+      "name": "review_tree.html",
+      "path": "artifacts/phase7/itu/review_bundle/review_tree.html",
+      "sha256": "f87798b14ce08dcd969b7c140abaf667eddadf468f0ff1688e7eb4ebc37a10cd"
+    },
+    {
+      "name": "review_tree.svg",
+      "path": "artifacts/phase7/itu/review_bundle/review_tree.svg",
+      "sha256": "0a33b3b1040c14f1cf45e63cdda366cfadcb78ad684dab7050b76ad27b0f5831"
+    },
+    {
+      "name": "review_summary.md",
+      "path": "artifacts/phase7/itu/review_bundle/review_summary.md",
+      "sha256": "0e5033a98ede6a955d759f10ecc455849f339b9541ce58643085cf3454e31ec3"
+    },
+    {
+      "name": "clinical_review_questions.md",
+      "path": "artifacts/phase7/itu/review_bundle/clinical_review_questions.md",
+      "sha256": "098f466ca256527b27c40b7cb07a7beb202ebb210ec0b0c9a2abea0d8a0847d2"
+    },
+    {
+      "name": "review_questions.md",
+      "path": "artifacts/phase7/itu/review_bundle/review_questions.md",
+      "sha256": "dd67243b60dde72e1a6cff3c83c60cf935398577d2757fe80373e02d60b633b3"
+    },
+    {
+      "name": "validation_summary.md",
+      "path": "artifacts/phase7/itu/review_bundle/validation_summary.md",
+      "sha256": "9a1dac5e7d888a9ff7d5dfc91c8371eb292dc9f1fcd3be751cc169ad0f467260"
+    },
+    {
+      "name": "review_instructions.md",
+      "path": "artifacts/phase7/itu/review_bundle/review_instructions.md",
+      "sha256": "1d36aa5256850108d006900d7985718fa8d0ce47b8d669f9c4467a870ef5c787"
+    },
+    {
+      "name": "evidence.md",
+      "path": "artifacts/phase7/itu/review_bundle/evidence.md",
+      "sha256": "84743f18b8534cf05f197d33eeccd7a1ec885ac8516bb5a079bce8e17fa853c0"
+    }
+  ],
+  "bundle_index": "artifacts/phase7/itu/review_bundle/index.html",
+  "document_id": "doc-800af94bc0654138",
+  "document_sha256": "800af94bc0654138a8e213cd1e42ad2e6021a955226a142b36c5b3f24e24777a",
+  "graph_content_hash": "710791a089dda66d17c8d1b5e745d3205586d77df543995cc7e5f3a4ddefa8e3",
+  "note": "Clinical review package. AWAITING_CLINICAL_REVIEW means no real reviewer decision exists yet; the candidates are NOT approved.",
+  "phase6_validation_report_sha256": "3055e68b4ea3b1a49b482b452841c8da304393a8322ebf51212f54cf248cef52",
+  "protocol_version_id": "CT-PL-197-v06",
+  "review_package_version": 1,
+  "review_template": "artifacts/phase7/itu/review_template.json",
+  "schema": "review-package-v1",
+  "status": "AWAITING_CLINICAL_REVIEW"
+}

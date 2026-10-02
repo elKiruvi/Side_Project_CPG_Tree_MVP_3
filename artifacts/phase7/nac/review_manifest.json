@@ -1,0 +1,64 @@
+{
+  "approval_policy": "policy_pending",
+  "approved_knowledge_packages": 0,
+  "approved_relations": 0,
+  "approved_rules": 0,
+  "bundle_files": [
+    {
+      "name": "index.html",
+      "path": "artifacts/phase7/nac/review_bundle/index.html",
+      "sha256": "0fd0c62d43a53f67940b4676916d47f4e534121ad5f406793f987ff0fdda2060"
+    },
+    {
+      "name": "review_tree.html",
+      "path": "artifacts/phase7/nac/review_bundle/review_tree.html",
+      "sha256": "8fdf4f20edad6053a6de4b98edd2eccda4331561d61da2d5817b38aa1b999051"
+    },
+    {
+      "name": "review_tree.svg",
+      "path": "artifacts/phase7/nac/review_bundle/review_tree.svg",
+      "sha256": "061496276184322be02c1d65a4cf2d4cc3838716e49c57dd58eec3905b31fa78"
+    },
+    {
+      "name": "review_summary.md",
+      "path": "artifacts/phase7/nac/review_bundle/review_summary.md",
+      "sha256": "f0a187edbaedadf618dcf0c2b1c1a974dd23350d9b81dc31437f45a99c587877"
+    },
+    {
+      "name": "clinical_review_questions.md",
+      "path": "artifacts/phase7/nac/review_bundle/clinical_review_questions.md",
+      "sha256": "92c44a4849b17ad16d6794833af8471f6acb72e49358ea75996f2b658054784f"
+    },
+    {
+      "name": "review_questions.md",
+      "path": "artifacts/phase7/nac/review_bundle/review_questions.md",
+      "sha256": "2781fff06c809abf61114992d9685df12b9f2eb915edaacceb35508f542f1236"
+    },
+    {
+      "name": "validation_summary.md",
+      "path": "artifacts/phase7/nac/review_bundle/validation_summary.md",
+      "sha256": "3cc69f3f6d0aa8cd7e0d60545a0644e2219c44d52ed9daa4ba6e02d0e4dc3da0"
+    },
+    {
+      "name": "review_instructions.md",
+      "path": "artifacts/phase7/nac/review_bundle/review_instructions.md",
+      "sha256": "1d36aa5256850108d006900d7985718fa8d0ce47b8d669f9c4467a870ef5c787"
+    },
+    {
+      "name": "evidence.md",
+      "path": "artifacts/phase7/nac/review_bundle/evidence.md",
+      "sha256": "9ff8aa7ff467ccb27db7294353c9f5c4a9fa346af6208f906a83cc9b48623952"
+    }
+  ],
+  "bundle_index": "artifacts/phase7/nac/review_bundle/index.html",
+  "document_id": "doc-3a1654757801b7b6",
+  "document_sha256": "3a1654757801b7b618661f846f8335ced6fb9e388891d6bca96f1cd81d6f5882",
+  "graph_content_hash": "7560e68617a69440e2b89bf486d22b7c537caa49bed9c3a99cdc05f4fe130d4c",
+  "note": "Clinical review package. AWAITING_CLINICAL_REVIEW means no real reviewer decision exists yet; the candidates are NOT approved.",
+  "phase6_validation_report_sha256": "11f1dd885bc363604ff264a132883eec5fc660a9cefe2628a6f976edad1349fa",
+  "protocol_version_id": "CT-PL-193-v9",
+  "review_package_version": 1,
+  "review_template": "artifacts/phase7/nac/review_template.json",
+  "schema": "review-package-v1",
+  "status": "AWAITING_CLINICAL_REVIEW"
+}
