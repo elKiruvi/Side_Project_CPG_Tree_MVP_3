@@ -1872,6 +1872,126 @@ become new candidate revisions. The following technical phase is Phase 6
 (deterministic structural validation expansion) plus the polished
 clinician-facing review visualization, not clinical approval.
 
+## Implementation Status — Phase 6 (structural validation + review packets)
+
+Implemented on `feature/structural-validation`. Phase 6 is deterministic
+structural validation only: it contains no clinical inference, does not judge
+thresholds or medications, does not repair clinical meaning, and does not
+promote any candidate.
+
+### Validator architecture
+
+- `src/cpg_tree/validation/candidate_structural.py` —
+  `validate_candidate_structure(graph, manifest, artifact_files=...)` produces
+  a deterministic `CandidateStructureReport` reusing the existing
+  `ValidationFinding` / `FindingSeverity` (ERROR/WARNING/INFO) model.
+- `src/cpg_tree/validation/review_packet.py` — `build_review_packet(...)` writes
+  `validation_report.json`, `validation_report.md`, and `review_manifest.json`
+  per protocol under `artifacts/phase6/<protocol>/`.
+
+### Error/warning semantics
+
+- ERROR = technically invalid or unsafe to review: protocol/document identity
+  mismatches, broken evidence spans, exact-quote mismatch, unresolvable
+  claim paths, missing evidence bindings, sequential relations on
+  inferred/unresolved evidence, invalid N-of-M, projection parity drift,
+  visual nodes/edges that do not map to canonical objects, contextual
+  relations drawn as sequence, missing review questions, unknown entry points.
+- WARNING = valid but review-relevant: disconnected components (classified
+  ISOLATED_CONTEXT / ENTRY_COMPONENT / UNREACHABLE_PATHWAY), cycles,
+  BLOCKED entities without a linked Issue, branch without label, degenerate
+  single-operand expressions, type-mismatched expression variables.
+- INFO = identity/topology inventory (entry points, sequential relations,
+  no-approved-artifacts statement, visual-evidence labels).
+
+### Validation categories implemented
+
+Identity and protocol isolation; provenance (bindings, span existence,
+document consistency, exact quotes, claim-path resolution, visual-evidence
+distinction); ClinicalExpression invariants (empty/degenerate operands,
+N-of-M range, variable-type compatibility); CandidateRelation invariants
+(endpoints, labels, duplicate endpoints, evidence class, blocked visibility);
+state invariants (PROPOSED/BLOCKED only, blocked-without-issue, no approved
+artifacts); reachability (entry points, terminals, disconnected components,
+cycles); projection parity (regenerated HTML/SVG byte-compared to committed
+artifacts; drawn node/edge ids must map to canonical rules/sequential
+relations; contextual relations must never appear as arrows); review artifact
+QA (existence, protocol identity, disclaimer, issue visibility, blocked
+styling); stable hashing (graph content hash, candidate/relation content
+hashes, artifact SHA-256s, report hash) bound in the review manifest.
+  Review-bound artifact paths are persisted as repository-relative paths
+  (never machine-specific absolute paths), so packets stay portable across
+  checkouts and CI runners; hash verification resolves them against the
+  project root.
+
+### Review-readiness definition
+
+`READY_FOR_CLINICAL_REVIEW` = no structural ERROR, provenance PASSED,
+projection parity PASSED, visuals and questions present, no candidate
+approved. It explicitly does NOT mean `CLINICALLY_VALID` or `APPROVED`;
+unresolved clinical ambiguity with intact structure remains ready for review.
+
+### Technical defects discovered in Phase 5 artifacts (and fixed)
+
+Phase 6 validation found exactly two metadata-integrity defects in the Phase 5
+artifacts; both were corrected without any clinical change:
+
+- NAC: BLOCKED rule `nac-r26-adjust-to-results` had no linked Issue; linked to
+  `nac-issue-visual-treatment`.
+- ITU: BLOCKED relation `itu-rel-23` had no linked Issue; linked to
+  `itu-issue-upper-hospital-outpatient`.
+
+The corrections live in `artifacts/phase6/<protocol>/correct_graph.py` and
+produce the review-bound graph plus regenerated visuals under
+`artifacts/phase6/<protocol>/`. The Phase 5 artifacts remain untouched; the
+Phase 6 review packets bind to the corrected snapshots. No clinical content
+(conditions, actions, relations, thresholds, states) changed.
+
+### NAC validation result
+
+0 errors, 2 warnings (the two documented disconnected components:
+`nac-r05-ct-neutropenia` ISOLATED_CONTEXT, `nac-r06-basic-laboratory`
+ENTRY_COMPONENT), 0 cycles, provenance PASSED, projection parity PASSED,
+**READY_FOR_CLINICAL_REVIEW**. Packet: `artifacts/phase6/nac/` with
+`validation_report.json/md` and `review_manifest.json` (bound to document
+SHA-256 `3a165475…5882`).
+
+### ITU validation result
+
+0 errors, 3 warnings (the three documented disconnected components: the two
+complicated-UTI definitions and the pediatric statement, all
+ISOLATED_CONTEXT), 0 cycles, provenance PASSED, projection parity PASSED,
+**READY_FOR_CLINICAL_REVIEW**. Packet: `artifacts/phase6/itu/` with
+`validation_report.json/md` and `review_manifest.json` (bound to document
+SHA-256 `800af94b…477a`).
+
+### Known remaining clinical Issues
+
+Unchanged: all 7 NAC Issues and all 7 ITU Issues remain open for qualified
+clinical review; they are listed in the Phase 5 review summaries, the review
+questions files, and the Phase 6 validation reports' review artifacts.
+
+### Tests and quality
+
+- 33 new tests: 25 synthetic unit tests (`tests/unit/validation/
+  test_candidate_structural.py`: fail-closed deserialization, identity,
+  provenance, N-of-M, relations, states, topology, cycles, entry points,
+  projection parity, review readiness, packet hash binding) and 8 integration
+  tests (`tests/integration/candidates/test_phase6_artifacts.py`: round-trip,
+  integrity corrections, deterministic reports, manifest hash bindings,
+  protocol isolation, warning counts).
+- No clinical answers are encoded in generic validator tests.
+
+### Exact next phase
+
+Phase 7 — clinical review workflow (append-only `ReviewDecision`,
+`ApprovedRule`/`ApprovedRelation` snapshots, configurable approval policy, and
+later `ApprovedKnowledgePackage` compilation) must remain driven by real
+reviewer decisions over the hash-bound Phase 6 packets. Before that, the
+polished clinician-facing review visualization may be built on top of the
+Phase 5/6 projection; the projection may never become a second source of
+truth.
+
 ## Phase 0: base, security, and Git
 
 - **Objective:** establish an independent, reproducible, private MVP 3
