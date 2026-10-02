@@ -1,0 +1,161 @@
+schema: visualization-v1
+protocol_version_id: CT-PL-197-v06
+visualization_mode: candidate
+review_status: AWAITING_CLINICAL_REVIEW
+clinical_approval: false
+stages:
+  - label: Bacteriuria asintomática
+    roots:
+      - itu-r01-asymptomatic-bacteriuria-classification
+  - label: ITU sintomática (clasificación y diagnóstico)
+    roots:
+      - itu-r02-symptomatic-uti-classification
+  - label: Embarazo — ITU alta (tratamiento y prevención)
+    roots:
+      - itu-r36-pregnancy-upper-treatment
+      - itu-r37-pregnancy-upper-prevention
+node_labels:
+  itu-r01-asymptomatic-bacteriuria-classification: Bacteriuria asintomática
+  itu-r02-symptomatic-uti-classification: ITU sintomática
+  itu-r03-complicated-structural-definition: Definición de ITU complicada (estructural/funcional)
+  itu-r04-lower-uti-classification: ITU baja
+  itu-r05-upper-uti-classification: ITU alta (pielonefritis)
+  itu-r06-complicated-beyond-bladder-definition: Definición de ITU complicada (más allá de la vejiga)
+  itu-r07-urinalysis: Citoquímico de orina (excepto primer episodio típico)
+  itu-r08-normal-dipstick: Tirilla normal y baja sospecha descartan el diagnóstico
+  itu-r09-urine-gram: Gram de orina sin centrifugar
+  itu-r10-urine-culture: Urocultivo (excepto primer episodio no complicado)
+  itu-r11-culture-positive-spontaneous: Positivo con 100 000 UFC o más (micción espontánea)
+  itu-r12-culture-positive-symptomatic: Positivo con 1 000 UFC o más (síntomas sin otra causa)
+  itu-r13-culture-positive-new-catheter: Positivo con 100 UFC o más (sonda recién insertada)
+  itu-r14-sample-before-antibiotic: Tomar muestra antes de la primera dosis de antibiótico
+  itu-r15-permanent-catheter-sampling: Sonda nueva en usuarios de sonda permanente
+  itu-r16-hospital-blood-tests: Hemoleucograma, ionograma, función renal y PCR
+  itu-r17-blood-cultures: Hemocultivos (pielonefritis con fiebre, hipotermia o choque)
+  itu-r18-urgent-imaging: Imagen urgente (ecografía o TC con contraste)
+  itu-r19-contrast-ct: TC con contraste (abscesos pequeños o nefritis local)
+  itu-r20-uro-ct: Urotomografía (alteración estructural)
+  itu-r21-functional-ultrasound: Ecografía con residuo posmiccional (alteración funcional)
+  itu-r22-pregnancy-ultrasound: Ecografía renal en embarazo
+  itu-r23-asb-treatment-eligibility: Tratar bacteriuria asintomática solo en embarazo o procedimiento de riesgo
+  itu-r24-hospitalization: Hospitalizar (indicaciones alternativas)
+  itu-r25-pediatric-hospitalization-source: Mención pediátrica (fuera del alcance adulto)
+  itu-r26-oral-step-or-discharge: Paso a vía oral y/o egreso (ambiguo)
+  itu-r27-lower-treatment: Tratamiento de ITU baja
+  itu-r28-asb-treatment: Tratamiento de bacteriuria asintomática
+  itu-r29-upper-outpatient-treatment: ITU alta ambulatoria (en conflicto con hospitalización)
+  itu-r30-upper-inpatient-no-resistant-risk: ITU alta hospitalaria sin riesgo de BGN resistente
+  itu-r31-upper-inpatient-resistant-no-shock: ITU alta con riesgo de BGN resistente, sin choque
+  itu-r32-upper-inpatient-resistant-shock: ITU alta con riesgo de BGN resistente y choque
+  itu-r33-pregnancy-asb-treatment: "Embarazo: bacteriuria asintomática"
+  itu-r34-pregnancy-lower-treatment: "Embarazo: ITU baja"
+  itu-r35-pregnancy-lower-prevention: "Embarazo: prevención si hay recurrencia"
+  itu-r36-pregnancy-upper-treatment: "Embarazo: tratamiento de ITU alta"
+  itu-r37-pregnancy-upper-prevention: "Embarazo: terapia preventiva de ITU alta"
+  itu-r38-adjust-to-culture: Ajustar según urocultivo y antibiograma
+branch_labels:
+  itu-rel-01: Embarazo o procedimiento invasivo de riesgo
+  itu-rel-02: Elegibilidad definida
+  itu-rel-03: Características de ITU baja
+  itu-rel-04: Características de ITU alta
+  itu-rel-05: Estudio en urgencias (con excepción)
+  itu-rel-06: Todos los pacientes de urgencias
+  itu-rel-07: Cultivo indicado (salvo excepción)
+  itu-rel-08: Antes de la primera dosis de antibiótico
+  itu-rel-09: Usuario de sonda permanente
+  itu-rel-10: Muestra espontánea adecuada
+  itu-rel-11: Contexto sintomático
+  itu-rel-12: Muestra por sonda recién insertada
+  itu-rel-13: Fiebre, hipotermia o choque
+  itu-rel-14: Contexto de imagen urgente
+  itu-rel-15: Sospecha de absceso o nefritis local
+  itu-rel-16: Sospecha de alteración estructural
+  itu-rel-17: Sospecha de alteración funcional
+  itu-rel-18: Indicación de hospitalización según protocolo
+  itu-rel-19: Paciente hospitalizado
+  itu-rel-20: Sin factores de riesgo de BGN resistente
+  itu-rel-21: Con riesgo de BGN resistente, sin choque
+  itu-rel-22: Con riesgo de BGN resistente y choque
+  itu-rel-23: ITU alta ambulatoria (CONFLICTO por resolver)
+  itu-rel-24: ITU baja
+  itu-rel-25: Contexto de embarazo (ITU alta)
+  itu-rel-26: Embarazo
+  itu-rel-27: Embarazo
+  itu-rel-28: Solo si hay recurrencia
+  itu-rel-29: Contexto de embarazo (ITU alta)
+  itu-rel-30: Resultado de cultivo y antibiograma disponible
+  itu-rel-31: Resultado de cultivo y antibiograma disponible
+  itu-rel-32: Resultado de cultivo y antibiograma disponible
+  itu-rel-33: Resultado de cultivo y antibiograma disponible
+  itu-rel-34: Resultado de cultivo y antibiograma disponible
+  itu-rel-35: Resultado de cultivo y antibiograma disponible
+  itu-rel-36: Resultado de cultivo y antibiograma disponible
+  itu-rel-37: Resultado de cultivo y antibiograma disponible
+  itu-rel-38: Resultado de cultivo y antibiograma disponible
+  itu-rel-39: Se cumplen todos los criterios
+  itu-rel-40: Se cumplen todos los criterios
+  itu-rel-41: Se cumplen todos los criterios
+  itu-rel-42: Embarazo con indicación de ecografía
+  itu-rel-43: Tirilla normal y baja sospecha
+  itu-rel-44: El Gram orienta el tratamiento empírico
+  itu-rel-45: Decisión según cultivos y sensibilidad
+  itu-rel-46: Decisión según cultivos y sensibilidad
+question_map:
+  - label: "Pregunta 2 — Hay dos definiciones de ITU complicada. ¿Cuál debe gobernar la vía?"
+    related:
+      - itu-r03-complicated-structural-definition
+      - itu-r06-complicated-beyond-bladder-definition
+  - label: "Pregunta 4 — ¿El citoquímico de orina tiene la excepción correcta (mujer, primer episodio, síntomas típicos)?"
+    related:
+      - itu-r07-urinalysis
+  - label: "Pregunta 6 — ¿El urocultivo tiene la excepción correcta (primer episodio no complicado en mujer premenopáusica)?"
+    related:
+      - itu-r10-urine-culture
+  - label: "Pregunta 7 — ¿Son correctos los tres umbrales de urocultivo positivo?"
+    related:
+      - itu-r11-culture-positive-spontaneous
+      - itu-r12-culture-positive-symptomatic
+      - itu-r13-culture-positive-new-catheter
+  - label: "Preguntas 12-13 — ¿La imagen urgente y la modalidad según la alteración sospechada están bien representadas?"
+    related:
+      - itu-r18-urgent-imaging
+      - itu-r19-contrast-ct
+      - itu-r20-uro-ct
+      - itu-r21-functional-ultrasound
+  - label: "Pregunta 14 — ¿La ecografía renal en embarazo tiene las indicaciones correctas?"
+    related:
+      - itu-r22-pregnancy-ultrasound
+  - label: "Pregunta 15 — ¿El tratamiento de bacteriuria asintomática queda restringido a embarazo y procedimientos de riesgo?"
+    related:
+      - itu-r23-asb-treatment-eligibility
+  - label: "Pregunta 16 — ¿Las indicaciones de hospitalización son alternativas correctas?"
+    related:
+      - itu-r24-hospitalization
+  - label: "Pregunta 17 — ITU alta: el protocolo la lista como indicación de hospitalización y también da tratamiento ambulatorio. ¿Cómo representarlo?"
+    related:
+      - itu-r29-upper-outpatient-treatment
+      - itu-r24-hospitalization
+  - label: "Pregunta 18 — El protocolo adulto conserva una mención pediátrica. ¿Qué hacer con ella?"
+    related:
+      - itu-r25-pediatric-hospitalization-source
+  - label: "Preguntas 19-21 — Verifique la tabla general de tratamiento (alternativas, dosis, duraciones, notas al pie)."
+    related:
+      - itu-r27-lower-treatment
+      - itu-r30-upper-inpatient-no-resistant-risk
+      - itu-r31-upper-inpatient-resistant-no-shock
+      - itu-r32-upper-inpatient-resistant-shock
+  - label: "Pregunta 22 — Verifique la tabla de embarazo como una sola unidad (páginas 4 y 5)."
+    related:
+      - itu-r33-pregnancy-asb-treatment
+      - itu-r34-pregnancy-lower-treatment
+      - itu-r35-pregnancy-lower-prevention
+      - itu-r36-pregnancy-upper-treatment
+      - itu-r37-pregnancy-upper-prevention
+  - label: "Pregunta 25 — Paso a vía oral y egreso: ¿son la misma decisión o decisiones distintas?"
+    related:
+      - itu-r26-oral-step-or-discharge
+notes:
+  - "El embarazo es un subflujo contextual: no es una etapa que todo paciente de ITU deba recorrer."
+  - "La rama 'ITU alta ambulatoria' está BLOQUEADA y en conflicto con la indicación de hospitalización; requiere adjudicación clínica."
+  - "Las dos definiciones de ITU complicada y la mención pediátrica permanecen como componentes fuera de la vía principal."
+  - "Las flechas discontinuas rojas indican relaciones pendientes de revisión; las flechas continuas indican secuencia o rama propuesta."
