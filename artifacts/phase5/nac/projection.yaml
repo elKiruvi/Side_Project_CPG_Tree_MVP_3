@@ -1,0 +1,25 @@
+schema: projection-v1
+protocol_version_id: CT-PL-193-v9
+stages:
+  - label: Diagnostic imaging
+    roots:
+      - nac-r01-chest-radiograph
+  - label: Laboratory workup (suspected pneumonia)
+    roots:
+      - nac-r06-basic-laboratory
+  - label: Hospitalization, severity and microbiology
+    roots:
+      - nac-r18-hospitalization
+  - label: Empirical treatment (visual evidence, BLOCKED)
+    roots:
+      - nac-r21-treatment-no-risk
+      - nac-r22-treatment-pseudomonas
+      - nac-r23-treatment-mrsa-combined
+      - nac-r24-treatment-mrsa-only
+      - nac-r25-treatment-postviral
+notes:
+  - "Projection roots are stage anchors declared for review readability; they add no canonical edges."
+  - "The laboratory stage connects to the hospitalization stage only through a contextual SUPPORTS relation in the canonical graph; no sequential edge was invented."
+  - "The empirical treatment stage connects to hospitalization only through BRANCH_CONTEXT relations in the canonical graph because the page 5 table evidence remains visual and BLOCKED."
+  - "Discharge, education, and follow-up are reachable from the empirical treatment stage through canonical FLOW relations."
+  - "nac-r05-ct-neutropenia remains an independent disconnected imaging context; see the disconnected-components section."
