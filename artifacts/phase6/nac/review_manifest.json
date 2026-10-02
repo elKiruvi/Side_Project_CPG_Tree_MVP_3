@@ -1,0 +1,123 @@
+{
+  "candidate_hashes": {
+    "nac-r01-chest-radiograph": "01dce1c64c50a790d9d6d7982ea9f03c44c6a0a85558622d03e1022f707d932b",
+    "nac-r02-diagnostic-support": "b50f5fb50c6e037a1e04810c425171302cdf2208e4d8672f8b1e8e273a089751",
+    "nac-r03-repeat-radiograph": "c4ad11803f10c26ff29acc493fe21572c37f3ac47721d9a98a99e1c2866a1c27",
+    "nac-r04-ct-inconclusive": "e8bea5896e02eb6ef1547e3501b552745e72d3358e54bf09396459e876289601",
+    "nac-r05-ct-neutropenia": "3a042b4c8a846c22105b49d36d172a204fe8c8a1e799dce88f6a7969706a45fa",
+    "nac-r06-basic-laboratory": "0cc729bafe9bdb11aabab1c2a90720c0bb314ba92e8a2dc69392f6aefe67b97a",
+    "nac-r07-hospital-laboratory": "ac8d2175cc0f88d7f848c05e336d055dafc97994e8551d6352f5d5f187080cd2",
+    "nac-r08-severe-laboratory": "9d336b772cd495d62bd6d8c96503b6116b4362f83cdcbc3c115a3bfe4563f246",
+    "nac-r09-desaturation-abg": "a9486d912a48f154680f3522aec25e16a63ec3479b90cf6adc3f7581587e7670",
+    "nac-r10-pleural-serum-tests": "f3259574ace69de36bb398a543fb599ad2714c1368fad1130678aadbfc06ac89",
+    "nac-r11-blood-cultures": "fa26001edb9ab3201dc972d8452aadec9c5a54c1af0e9d0caed41df9df0b20ca",
+    "nac-r12-sputum-culture": "27db0bf97b48614c9fc1f04ac1abcc6e112d807f369982ae468984a61d0a9d21",
+    "nac-r13-induced-sputum": "8f0258b2deec49ffdfe21b26000ad4523e07b3712e00053c9a6f71380005a2cd",
+    "nac-r14-filmarray": "13b5cc0a29002ad10bcd1db2e9db40b7e026e3fe9ebcc71c23bb231fbd4f7a5e",
+    "nac-r15-deep-filmarray": "c52f3898735dec9afd1fee8ae2fad4c0070dcfbfec0fc58b91396bc7443937cb",
+    "nac-r16-nasopharyngeal-panel": "5b25cabb4c62a9a27262ce0f7f0e93a3630eea201b697cc4b55ad4789b55e2b7",
+    "nac-r17-pleural-study": "30550389482b8cb45720e3a6352bc014fcafafd6caa560d6845e7a578058da66",
+    "nac-r18-hospitalization": "4122d4b6920056225845420a3d3277b09c00a57eb3b0ed5b18745ed5f016157d",
+    "nac-r19-icu-direct": "b5b192f7194b6e5686e504c43c7bfe1f56983d38e0b33e41cb3bb4f3e0c961b5",
+    "nac-r20-icu-three-criteria": "df72c68fed69b42cd8c9c345116b0218a982537ceb71699f0c38111c72915c0c",
+    "nac-r21-treatment-no-risk": "8a404683533ee3e1ad1cb8b4f9656287d425375d942b9794792e8b662418a068",
+    "nac-r22-treatment-pseudomonas": "c5f3bff9bf56a3ad8646313cfbe52513a04cc867023d88414aa79252d1b2aa9f",
+    "nac-r23-treatment-mrsa-combined": "5834cc572286852c9356a69d1f8243aee53033ae0cb889c6fd58ffb69cb39d6e",
+    "nac-r24-treatment-mrsa-only": "82578855525855e8545bb151d38692e23e3ec72bd2216055fb03affa29925a53",
+    "nac-r25-treatment-postviral": "a0df6ef72c6f84f70050fed8e7eac3ec211e41bdad0258b9dea4ba4ea57e7112",
+    "nac-r26-adjust-to-results": "fe1bc698ee7530ff8c8759f6ab76828491712e6faddce69601484278a3c22a23",
+    "nac-r27-discharge": "5868f59e1b18a308f56db6f1fa9606e77beb6a176489cea481555790f1f04edf",
+    "nac-r28-discharge-education": "f1f2d2366f4971eca665b7b2117482db352dd1ec04669e16f2b8dc9c4cf7992c",
+    "nac-r29-follow-up": "67d4467d05fbd664390cc42401cc25c87993778286b017abf3789403dfb947fc"
+  },
+  "clinical_review_questions": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/nac/clinical_review_questions.md",
+  "document_id": "doc-3a1654757801b7b6",
+  "document_sha256": "3a1654757801b7b618661f846f8335ced6fb9e388891d6bca96f1cd81d6f5882",
+  "generation_run_id": "phase4-opencode-ct-pl-193-v9",
+  "graph_content_hash": "7560e68617a69440e2b89bf486d22b7c537caa49bed9c3a99cdc05f4fe130d4c",
+  "graph_dump_hash": "7560e68617a69440e2b89bf486d22b7c537caa49bed9c3a99cdc05f4fe130d4c",
+  "graph_id": "candidate-graph-ct-pl-193-v9-phase4",
+  "note": "Candidate review packet. READY_FOR_CLINICAL_REVIEW means structurally trustworthy and reviewable; it is NOT clinical validation or approval.",
+  "phase5_review_artifacts": [
+    {
+      "name": "projection.yaml",
+      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/nac/projection.yaml",
+      "sha256": "c6db756d1c81e5df6ed0d8d70f7d923ff139c9ed86dce51c80daab896587a3a0"
+    },
+    {
+      "name": "reconciliation_report.md",
+      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/nac/reconciliation_report.md",
+      "sha256": "7497d55a96f377593fc2804a773c7facbe33865191eb44994bae3e3f552d429a"
+    },
+    {
+      "name": "review_summary.md",
+      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/nac/review_summary.md",
+      "sha256": "f0a187edbaedadf618dcf0c2b1c1a974dd23350d9b81dc31437f45a99c587877"
+    },
+    {
+      "name": "clinical_review_questions.md",
+      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/nac/clinical_review_questions.md",
+      "sha256": "92c44a4849b17ad16d6794833af8471f6acb72e49358ea75996f2b658054784f"
+    }
+  ],
+  "projection_parity_status": "PASSED",
+  "protocol_version_id": "CT-PL-193-v9",
+  "provenance_status": "PASSED",
+  "relation_hashes": {
+    "nac-rel-01": "6771a8d5591bbebe213d66d46ea808b7343f1247cf90b6bf73daccd44ecf22f1",
+    "nac-rel-02": "62c3cdde7d3061613f53a996a609a7038b60a0382e09da0edac8fee94bfb9e34",
+    "nac-rel-03": "3e5c6c34d173b8c71f55e337243f5d34bf972390eade1a06169c22e417a6f167",
+    "nac-rel-04": "f675e5101e4d04e84615258709e02e6518d951ec584d84c45795f41bae592ff5",
+    "nac-rel-05": "fdb7d150440e8149a17be2014f4afd43fb36e60012bddec8b33ec8aa0e5171fd",
+    "nac-rel-06": "29e4eacc03c14a03b4972d371bbb549dd29cb3fd8cf9f44a3a45fcbf009e5453",
+    "nac-rel-07": "2ee4bea791df2a59c8684e2bcd1d6c68811a1b6e1cd458d7a72359f35f2f0d4e",
+    "nac-rel-08": "e7bd0d867ce01172176cfe96610aff2885dddc3728ca644915e323f89fba2fb1",
+    "nac-rel-09": "8111f9acc011de0a0daf4ea47209aa6e71242dfb347d43872191017c449c2623",
+    "nac-rel-10": "5c73c978e98afa5402145427bec8fbe54ce0d138f60b6ee31575124c9c7abc5a",
+    "nac-rel-10a": "cd9d25e402025928e478a87997debe0ddacd9a4e8d9e2f2e0ffbdc5653b9a565",
+    "nac-rel-11": "cc8e73c499436f30bed8d3c9583d0b4efd17795a27046c879c70f4e6ee67ac70",
+    "nac-rel-12": "4db78682394c0ad9e4c9e21db42e866c02ace898b78cf009b89b326b384f6a52",
+    "nac-rel-13": "c488576b462e8b3ddb00ceb24730900b06e5c1d18e8ec7bfbaf4f8ed874a48bb",
+    "nac-rel-14": "a844bb8ee847207b3a7a3a0ebe44cd1c9cbc3873308111d336415d86c0fb1142",
+    "nac-rel-15": "a1056a23bab858f6c7bba9ccffa82071be73c5ae0daecb2a38a9ea9236044a38",
+    "nac-rel-16": "e9a15d96679ca362509c7db1487e9a24765e3e01ffc643693d8aba89284b430b",
+    "nac-rel-17": "59fdb853154e7d9339aaf3ecd7accef07ab94223e15373757a18aa621d46ba4c",
+    "nac-rel-18": "b9968f15a0446862d34ec203e413c9dceac4c151d43b4c6849249d8f3ec1a818",
+    "nac-rel-19": "e85f4986bd0e66aad4a1dfcf7d36dcfb3fdf31459dfbd402225307f3867b6568",
+    "nac-rel-20": "94e1226a1594a3aa503aeeef5ad429842f596dd1f6be6cbdea2d0028f3cdce08",
+    "nac-rel-21": "84f23ec7b0b2037f476e846e9e9cf450e66dbad1f391debbc5f0f3eb1c82e572",
+    "nac-rel-22": "2c25c5ff4a8ad4cc200caf227b219616cfdea1141af22c0d7f301f2b4a90a3a2",
+    "nac-rel-23": "7e8c5914c41a9cc96a55da521b02b9e92ea1767e9de8cad83d787a2923864f7f",
+    "nac-rel-24": "a20e4ba2e3732e83dd0cea2bbae3fdc8ed27ca6453d379cf901a99670dadf13b",
+    "nac-rel-25": "68836d1c6787fa9d54ae3ecefc8a76fb182a2b5570bccdb20036b173262c4c47",
+    "nac-rel-26": "8ed3558ee2215dea25746e237d220995e7c539b9458ee45d96b8916b6071eff5",
+    "nac-rel-27": "9541367e37a6b18455e2021c0f2648058103dcc782026b5947ced496c8c45f4f",
+    "nac-rel-28": "dae71e24ff8449a1be8deae696e4d1d55e58227fea1ea84baf67f51bbcec3ccf",
+    "nac-rel-29": "ea1cd7ca4eeac765f15a3c160c2d9fa8796b6c65a73312ac230d3bcfdc5e45fa",
+    "nac-rel-30": "fe747b5ff982b2178f726a1b2877ae586acdfe1db2a005366d80c280dbf1f1c2",
+    "nac-rel-31": "08cf20252f6caf3a3fb59a178e9cbc4e330953c563bd971cde50bd05cd786f40",
+    "nac-rel-32": "0daf29d1419b6a1fd221458e46180f21fc39651b99de5902b9e2b82c9e52b1c8"
+  },
+  "review_bound_artifacts": [
+    {
+      "name": "review_tree.html",
+      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase6/nac/review_tree.html",
+      "sha256": "8fdf4f20edad6053a6de4b98edd2eccda4331561d61da2d5817b38aa1b999051"
+    },
+    {
+      "name": "review_tree.svg",
+      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase6/nac/review_tree.svg",
+      "sha256": "061496276184322be02c1d65a4cf2d4cc3838716e49c57dd58eec3905b31fa78"
+    },
+    {
+      "name": "candidate_graph.json",
+      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase6/nac/candidate_graph.json",
+      "sha256": "7560e68617a69440e2b89bf486d22b7c537caa49bed9c3a99cdc05f4fe130d4c"
+    }
+  ],
+  "review_readiness": "READY_FOR_CLINICAL_REVIEW",
+  "schema": "review-manifest-v1",
+  "structural_error_count": 0,
+  "structural_warning_count": 2,
+  "validation_report_sha256": "11f1dd885bc363604ff264a132883eec5fc660a9cefe2628a6f976edad1349fa"
+}
