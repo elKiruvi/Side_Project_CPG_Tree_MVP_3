@@ -2192,6 +2192,21 @@ questions (deduplicated), and technical ids appear only as secondary
 metadata. `visualization.yaml` remains presentation-only (key allowlist
 tested; rendering provably leaves the CandidateGraph dump unchanged).
 
+### Clinician Markdown tree projection (delivery view)
+
+Phase 8A additionally provides a presentation-only clinician Markdown tree:
+`artifacts/phase8/<protocol>/clinical_tree_delivery.md`, generated
+deterministically by the generic `render_clinical_tree_markdown` renderer
+(`src/cpg_tree/views/markdown_tree.py`) from the CandidateGraph plus the
+presentation manifest. It contains ONLY the candidate tree (one-line
+pending-validation warning + stage-grouped Unicode pathway, CONTEXTO block,
+and out-of-main-pathway block). It contains no review questionnaire, no
+methodology, and no architecture; HTML/SVG/canonical graph remain available
+and unchanged; clinical semantics are unchanged. Every sequential arrow maps
+to a canonical relation (traceability in invisible HTML comments), and
+coverage remains complete (NAC 29/29 rules, 33/33 relations; ITU 38/38 rules,
+46/46 relations). This is not Phase 8B.
+
 ### Known limitations
 
 - NAC treatment stage remains visibly pending (visual page-5 evidence); the

@@ -73,6 +73,9 @@ def write_visualization_package(  # noqa: PLR0913
     review_md_path = out_dir / "clinical_tree_review.md"
     if review_md_path.exists():
         (bundle / "clinical_tree_review.md").write_bytes(review_md_path.read_bytes())
+    delivery_md_path = out_dir / "clinical_tree_delivery.md"
+    if delivery_md_path.exists():
+        (bundle / "clinical_tree_delivery.md").write_bytes(delivery_md_path.read_bytes())
 
     phase6_manifest = json.loads(phase6_review_manifest_path.read_text(encoding="utf-8"))
     node_ids, relation_ids, issue_ids = _rendered_inventory(svg_text, graph)
@@ -96,6 +99,7 @@ def write_visualization_package(  # noqa: PLR0913
             "clinical_tree.svg": _relative(out_dir / "clinical_tree.svg", project_root),
             "print_view.html": _relative(out_dir / "print_view.html", project_root),
             "clinical_tree_review.md": _relative(review_md_path, project_root),
+            "clinical_tree_delivery.md": _relative(delivery_md_path, project_root),
             "clinician_bundle": _relative(bundle, project_root),
         },
         "note": (
