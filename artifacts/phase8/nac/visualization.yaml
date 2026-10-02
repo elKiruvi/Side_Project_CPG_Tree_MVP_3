@@ -1,0 +1,132 @@
+schema: visualization-v1
+protocol_version_id: CT-PL-193-v9
+visualization_mode: candidate
+review_status: AWAITING_CLINICAL_REVIEW
+clinical_approval: false
+stages:
+  - label: "Diagnóstico por imagen"
+    roots:
+      - nac-r01-chest-radiograph
+  - label: "Laboratorio en sospecha de neumonía"
+    roots:
+      - nac-r06-basic-laboratory
+  - label: "Hospitalización, severidad y microbiología"
+    roots:
+      - nac-r18-hospitalization
+  - label: "Tratamiento empírico (evidencia visual)"
+    roots:
+      - nac-r21-treatment-no-risk
+      - nac-r22-treatment-pseudomonas
+      - nac-r23-treatment-mrsa-combined
+      - nac-r24-treatment-mrsa-only
+      - nac-r25-treatment-postviral
+node_labels:
+  nac-r01-chest-radiograph: Solicitar radiografía de tórax
+  nac-r02-diagnostic-support: Diagnóstico de neumonía respaldado
+  nac-r03-repeat-radiograph: Repetir radiografía a las 48 horas
+  nac-r04-ct-inconclusive: Tomografía de tórax en contextos específicos
+  nac-r05-ct-neutropenia: Tomografía simple en neutropenia febril
+  nac-r06-basic-laboratory: Hemoleucograma y BUN para decidir hospitalización
+  nac-r07-hospital-laboratory: Añadir PCR, creatinina, lactato y sodio
+  nac-r08-severe-laboratory: Coagulación, transaminasas, bilirrubinas y gases
+  nac-r09-desaturation-abg: Gases arteriales por desaturación
+  nac-r10-pleural-serum-tests: LDH y proteínas en suero (derrame pleural)
+  nac-r11-blood-cultures: Hemocultivos según criterios compuestos
+  nac-r12-sputum-culture: Gram y cultivo de esputo
+  nac-r13-induced-sputum: Esputo inducido
+  nac-r14-filmarray: Panel molecular respiratorio (FilmArray)
+  nac-r15-deep-filmarray: Panel de neumonía con muestra profunda
+  nac-r16-nasopharyngeal-panel: Panel respiratorio por hisopado nasofaríngeo
+  nac-r17-pleural-study: Toracentesis y estudio del líquido pleural
+  nac-r18-hospitalization: Hospitalizar (indicaciones alternativas)
+  nac-r19-icu-direct: UCI/UCE por indicación directa
+  nac-r20-icu-three-criteria: UCI/UCE si cumple 3 o más de 9 criterios
+  nac-r21-treatment-no-risk: Tratamiento sin factores de riesgo
+  nac-r22-treatment-pseudomonas: Tratamiento con riesgo de Pseudomonas/resistentes
+  nac-r23-treatment-mrsa-combined: Tratamiento con riesgo de MRSA y otros
+  nac-r24-treatment-mrsa-only: Tratamiento con solo riesgo de MRSA
+  nac-r25-treatment-postviral: Tratamiento en contexto posviral/MRSA
+  nac-r26-adjust-to-results: Ajustar según prueba molecular o cultivo
+  nac-r27-discharge: Egreso si cumple todos los criterios
+  nac-r28-discharge-education: Educar sobre signos de recaída
+  nac-r29-follow-up: Revisión con medicina interna a las 4 semanas
+branch_labels:
+  nac-rel-01: Cuadro compatible e infiltrado nuevo
+  nac-rel-02: Radiografía inicial normal y sospecha alta
+  nac-rel-03: Radiografía no concluyente con indicación de TC
+  nac-rel-04: Estudio paralelo en sospecha de neumonía
+  nac-rel-05: Resultados para definir hospitalización
+  nac-rel-06: Con indicación de hospitalización
+  nac-rel-07: Con indicación de hospitalización
+  nac-rel-08: Diagnóstico confirmado y hospitalización
+  nac-rel-09: Hospitalizado y cumple criterios de hemocultivo
+  nac-rel-10: Contexto grave
+  nac-rel-10a: Desaturación
+  nac-rel-11: Indicación directa de UCI/UCE
+  nac-rel-12: Cumple 3 o más criterios
+  nac-rel-13: Contexto de tratamiento (tabla visual)
+  nac-rel-14: Contexto de tratamiento (tabla visual)
+  nac-rel-15: Contexto de tratamiento (tabla visual)
+  nac-rel-16: Contexto de tratamiento (tabla visual)
+  nac-rel-17: Contexto de tratamiento (tabla visual)
+  nac-rel-18: Resultado molecular disponible
+  nac-rel-19: Resultado de cultivo disponible
+  nac-rel-20: Criterios de egreso valorados después del tratamiento
+  nac-rel-21: Criterios de egreso valorados después del tratamiento
+  nac-rel-22: Criterios de egreso valorados después del tratamiento
+  nac-rel-23: Criterios de egreso valorados después del tratamiento
+  nac-rel-24: Criterios de egreso valorados después del tratamiento
+  nac-rel-25: Al momento del alta
+  nac-rel-26: A las 4 semanas del alta
+  nac-rel-27: La radiografía repetida respalda el diagnóstico
+  nac-rel-28: Con indicación de toracentesis
+  nac-rel-29: No puede recolectarse espontáneamente
+  nac-rel-30: Muestra profunda disponible, sin sospecha de SARS-CoV-2
+  nac-rel-31: El paciente no expectora
+  nac-rel-32: Derrame parapneumónico calificado
+question_map:
+  - label: "Pregunta 8 — ¿Es correcta la regla compuesta de hemocultivos?"
+    related:
+      - nac-r11-blood-cultures
+  - label: "Pregunta 13 — ¿La UCI/UCE es una decisión separada de la hospitalización?"
+    related:
+      - nac-r19-icu-direct
+  - label: "Pregunta 14 — ¿Es correcta la segunda vía de UCI/UCE (3 o más criterios)?"
+    related:
+      - nac-r20-icu-three-criteria
+  - label: "Pregunta 15 — Discrepancia BUN: narrativa (BUN > 30) vs flujograma (BUN > 20). ¿Cuál prevalece?"
+    related:
+      - nac-r11-blood-cultures
+      - nac-r20-icu-three-criteria
+  - label: "Pregunta 16 — Verifique fila por fila la tabla de tratamiento de la página 5."
+    related:
+      - nac-r21-treatment-no-risk
+      - nac-r22-treatment-pseudomonas
+      - nac-r23-treatment-mrsa-combined
+      - nac-r24-treatment-mrsa-only
+      - nac-r25-treatment-postviral
+  - label: "Pregunta 17 — ¿Los factores de riesgo de gérmenes resistentes están completos?"
+    related:
+      - nac-r21-treatment-no-risk
+      - nac-r22-treatment-pseudomonas
+      - nac-r23-treatment-mrsa-combined
+      - nac-r24-treatment-mrsa-only
+  - label: "Pregunta 20 — ¿Los criterios de egreso deben leerse todos juntos?"
+    related:
+      - nac-r27-discharge
+  - label: "Pregunta 4 — ¿La tomografía queda correctamente restringida?"
+    related:
+      - nac-r04-ct-inconclusive
+  - label: "Pregunta 5 — Neutropenia febril: ¿tomografía simple en todos los pacientes con síntomas respiratorios?"
+    related:
+      - nac-r05-ct-neutropenia
+  - label: "Pregunta 10 — ¿El panel molecular (FilmArray) es la práctica institucional?"
+    related:
+      - nac-r14-filmarray
+  - label: "Pregunta 11 — ¿Todo derrame paraneumónico calificado va a toracentesis?"
+    related:
+      - nac-r17-pleural-study
+notes:
+  - "La etapa de tratamiento empírico usa evidencia visual de la página 5 (revisión manual requerida); permanece PENDIENTE DE REVISIÓN."
+  - "La etapa de laboratorio se conecta a la hospitalización solo mediante una relación de apoyo; no se inventó una secuencia."
+  - "Las flechas discontinuas rojas indican relaciones pendientes de revisión; las flechas continuas indican secuencia o rama propuesta."

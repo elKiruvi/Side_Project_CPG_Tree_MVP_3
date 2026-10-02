@@ -2079,6 +2079,135 @@ qualified clinic personnel. Ingest returned templates with
 the approval policy (Phase 7B). Do not begin Phase 8 (final clinician-facing
 visualization/application) before real review feedback exists.
 
+## Implementation Status — Phase 8A (clinician-facing candidate visualization)
+
+Implemented on `feature/clinician-visualization`. This phase produces
+polished, clinician-facing CANDIDATE visualizations in Spanish for both
+protocols. Clinical review has NOT occurred; the visuals are review
+artifacts, never approved knowledge. Phase 8B (approved final visualization)
+remains BLOCKED/PENDING Phase 7B.
+
+### Visualization architecture
+
+- `src/cpg_tree/views/clinical_tree.py` — deterministic renderer with three
+  candidate entry points (`render_clinical_tree_html`,
+  `render_clinical_tree_svg`, `render_print_view_html`) plus a separate
+  `render_approved_clinical_tree_svg(package, …)` boundary for Phase 8B
+  (synthetic-tested only). The layout core is shared between candidate and
+  approved rendering.
+- `src/cpg_tree/views/visualization_package.py` — writes the clinician
+  bundle and the machine `visualization_manifest.json`
+  (visualization-manifest-v1: mode, review status, clinical_approval flag,
+  rendered node/relation ids, issue ids, artifact SHA-256s, portable
+  repository-relative paths).
+- Presentation manifests `visualization.yaml` per protocol carry Spanish
+  node/branch labels, stage anchors, notes, and a question map linking Phase
+  7 review questions to nodes. Presentation metadata only: the canonical
+  graph and the Phase 7 questions remain the authorities.
+
+### Visual grammar and behavior
+
+- Banner: every candidate view opens with
+  «ÁRBOL CANDIDATO — PENDIENTE DE VALIDACIÓN CLÍNICA» and the disclaimer;
+  no view can be mistaken for approved content.
+- Node kinds in Spanish: Decisión, Diagnóstico, Tratamiento, Disposición,
+  Seguimiento, Contexto (mapped generically from ActionType).
+- BLOCKED: dashed red border plus the text «⚠ Requiere revisión» (never color
+  alone; never presented as rejection). BLOCKED edges are dashed red and
+  labelled «BLOQUEADA — requiere revisión».
+- Issues: visible markers, a dedicated section, and a detail panel.
+- Evidence: node detail panel shows page, textual quotes (or
+  «Evidencia visual — requiere revisión manual»), candidate id and content
+  hash. Contextual relations are listed separately and never drawn as
+  sequence; no negative branch is invented (legend states it).
+- Interactive HTML: review/pathway modes, node/edge selection with detail
+  panel, zoom, and issue visibility; static single-file HTML + minimal
+  vanilla JS, no backend/framework. Print view (`print_view.html`) keeps the
+  warning, legend, and markers and prints landscape.
+- Traceability: every drawn node carries `data-candidate-id` +
+  `data-content-hash`; every drawn edge carries `data-relation-id` +
+  `data-content-hash`; projection stage anchors are labelled as such.
+
+### Engine safety boundary
+
+`src/cpg_tree/engine/candidate_guard.py` adds a fail-closed runtime guard:
+`evaluate_package` now calls `reject_candidate_graph(version)` and raises
+`TypeError` for any `CandidateGraph`. Candidate knowledge can be visualized
+and reviewed but never executed as approved clinical knowledge.
+
+### Artifacts
+
+- NAC: `artifacts/phase8/nac/` — `clinical_tree.html` (28 rendered nodes,
+  25 sequential edges), `clinical_tree.svg`, `print_view.html`,
+  `visualization.yaml`, `visualization_manifest.json`, `README.md`,
+  `clinician_bundle/{index.html,clinical_tree.svg,README.txt}`.
+- ITU: `artifacts/phase8/itu/` — `clinical_tree.html` (35 rendered nodes,
+  43 sequential edges), `clinical_tree.svg`, `print_view.html`, manifest,
+  README, bundle.
+- Both manifests report `visualization_mode: candidate`,
+  `review_status: AWAITING_CLINICAL_REVIEW`, `clinical_approval: false`; no
+  source PDFs are bundled; paths are portable (relocation-tested).
+
+### Visual inspection results
+
+Headless-browser screenshot inspection was ATTEMPTED with Firefox
+(`--headless --screenshot`) but the environment's software compositor fails
+(RenderCompositorSWGL framebuffer mapping error), so no raster screenshots
+could be produced. Per project decision, PNG artifacts are NOT part of the
+deliverables and raster generation is not retried; the visualization package
+contains only HTML + SVG + Markdown + print HTML. Inspection was performed
+deterministically instead: the generated SVGs were verified programmatically
+(node counts, edge counts, zero node-box overlaps via bounding-box checks,
+banner placement, Spanish labels, blocked/issue markers, traceability
+attributes, parity with the canonical graph) and the layouts follow the
+Phase 5/6 topology exactly. A human should open both `clinical_tree.html`
+files in a browser as the final visual acceptance step.
+
+### Coverage audit (every candidate reviewable)
+
+`src/cpg_tree/views/coverage_audit.py` deterministically classifies every
+`CandidateRule` (MAIN_TREE / CONTEXTUAL_SUBGRAPH / BLOCKED / OUT_OF_SCOPE /
+DISCONNECTED_REVIEW_ITEM) and every `CandidateRelation` (DRAWN_SEQUENTIAL /
+CONTEXTUAL / SUPPORTING / BLOCKED / NON_VISUAL_REVIEW_ITEM) and records where
+each one is reviewable.
+
+- NAC: 29/29 rules reviewable (28 drawn in the main tree; the febrile-
+  neutropenia CT context appears in the disconnected section), 33/33
+  relations reviewable (25 drawn arrows, 8 contextual/supporting).
+- ITU: 38/38 rules reviewable (35 drawn; the two complicated-UTI definitions
+  and the pediatric statement appear in the disconnected section), 46/46
+  relations reviewable (43 drawn arrows, 3 contextual/supporting).
+- The interactive HTML includes a full candidate inventory section listing
+  every rule and relation, so nothing can silently disappear from review.
+
+### Clinician Markdown review documents
+
+Each protocol now ships `clinical_tree_review.md` (Spanish): purpose,
+review instructions, visualization links, coverage summary, proposed
+clinical flow, a split set of CRITICAL vs precision questions with concrete
+checkboxes, blocked-element list, evidence/traceability notes, and how to
+report corrections. NAC carries 12 questions (10 critical), ITU 13
+(11 critical). Questions are tied to the existing Issues and Phase 7 review
+questions (deduplicated), and technical ids appear only as secondary
+metadata. `visualization.yaml` remains presentation-only (key allowlist
+tested; rendering provably leaves the CandidateGraph dump unchanged).
+
+### Known limitations
+
+- NAC treatment stage remains visibly pending (visual page-5 evidence); the
+  BUN and ICU source conflicts remain visible review markers.
+- ITU upper-UTI outpatient branch remains visibly BLOCKED; pregnancy remains
+  a contextual subflow; pediatric statement remains out of scope.
+- No interactive editing exists (by design); corrections flow through the
+  Phase 7 decision template and import pipeline.
+
+### Exact next step
+
+Phase 8B (approved final visualization) waits for Phase 7B real clinical
+review. After clinic personnel return decisions, regenerate the approved
+trees via `render_approved_clinical_tree_svg` from the compiled
+`ApprovedKnowledgePackage`. Do not begin Phase 9 (scientific evaluation).
+
 ## Phase 0: base, security, and Git
 
 - **Objective:** establish an independent, reproducible, private MVP 3

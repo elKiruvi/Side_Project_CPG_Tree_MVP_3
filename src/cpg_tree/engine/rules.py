@@ -22,6 +22,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from enum import StrEnum
 
+from cpg_tree.engine.candidate_guard import reject_candidate_graph
 from cpg_tree.engine.case import Case
 from cpg_tree.engine.conditions import evaluate_operand
 from cpg_tree.engine.errors import EngineConfigurationError
@@ -159,7 +160,11 @@ def evaluate_package(version: ProtocolVersion, case: Case) -> EvaluationResult:
     evaluation) and raises ``EngineConfigurationError`` on unresolvable ones;
     it never calls the validation layer. The package and the case are not
     mutated, no action is executed, and no clock or I/O is used.
+
+    Candidate knowledge is rejected fail-closed: a ``CandidateGraph`` can
+    never be executed as approved clinical knowledge.
     """
+    reject_candidate_graph(version)
     rule_results: list[RuleEvaluation] = []
     for rule_id in sorted(version.rules):
         rule = version.rules[rule_id]
