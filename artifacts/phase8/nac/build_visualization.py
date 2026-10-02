@@ -10,6 +10,7 @@ from pathlib import Path
 
 from cpg_tree.validation.review_packet import load_packet_graph
 from cpg_tree.views.clinical_tree import load_visualization_manifest
+from cpg_tree.views.markdown_tree import render_clinical_tree_markdown
 from cpg_tree.views.visualization_package import write_visualization_package
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -52,6 +53,9 @@ PENDIENTE DE VALIDACION CLINICA. No aprobado por personal clinico.
 def main() -> None:
     graph = load_packet_graph(PHASE6_DIR / "candidate_graph.json")
     manifest = load_visualization_manifest(PHASE8_DIR / "visualization.yaml")
+    (PHASE8_DIR / "clinical_tree_delivery.md").write_text(
+        render_clinical_tree_markdown(graph, manifest), encoding="utf-8"
+    )
     machine_manifest = write_visualization_package(
         graph=graph,
         manifest=manifest,

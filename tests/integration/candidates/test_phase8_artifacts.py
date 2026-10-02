@@ -26,6 +26,7 @@ from cpg_tree.views.clinical_tree import (
     render_print_view_html,
 )
 from cpg_tree.views.coverage_audit import audit_visualization_coverage
+from cpg_tree.views.markdown_tree import render_clinical_tree_markdown
 from cpg_tree.views.visualization_package import VISUALIZATION_MANIFEST_SCHEMA
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -255,3 +256,42 @@ def test_no_raster_artifacts_anywhere_in_phase8() -> None:
     for name in ("nac", "itu"):
         text = (PHASE8[name] / "visualization_manifest.json").read_text(encoding="utf-8")
         assert "png" not in text.lower()
+
+
+@pytest.mark.parametrize("name", ("nac", "itu"))
+def test_clinical_tree_delivery_markdown(name: str) -> None:
+    graph = load_candidate_graph(
+        (PHASE6[name] / "candidate_graph.json").read_text(encoding="utf-8")
+    )
+    delivery = (PHASE8[name] / "clinical_tree_delivery.md").read_text(encoding="utf-8")
+    assert "PENDIENTE DE VALIDACIÓN CLÍNICA" in delivery
+    assert delivery.count("PENDIENTE DE VALIDACIÓN CLÍNICA") == 1
+    assert "Preguntas" not in delivery
+    assert "- [ ]" not in delivery
+    assert "Cómo reportar" not in delivery
+    assert "Aprobación clínica: 0" in delivery
+    for rule in graph.rules:
+        assert f"rule:{rule.candidate_id}" in delivery
+    for relation in graph.relations:
+        assert f"rel:{relation.candidate_relation_id}" in delivery
+    bundle_copy = PHASE8[name] / "clinician_bundle" / "clinical_tree_delivery.md"
+    assert bundle_copy.exists()
+    assert bundle_copy.read_text(encoding="utf-8") == delivery
+
+
+@pytest.mark.parametrize("name", ("nac", "itu"))
+def test_delivery_markdown_is_deterministic(name: str) -> None:
+    graph = load_candidate_graph(
+        (PHASE6[name] / "candidate_graph.json").read_text(encoding="utf-8")
+    )
+    manifest = load_visualization_manifest(PHASE8[name] / "visualization.yaml")
+    assert render_clinical_tree_markdown(graph, manifest) == (
+        PHASE8[name] / "clinical_tree_delivery.md"
+    ).read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize("name", ("nac", "itu"))
+def test_existing_phase8_artifacts_unchanged(name: str) -> None:
+    review_md = (PHASE8[name] / "clinical_tree_review.md").read_text(encoding="utf-8")
+    assert "## Preguntas críticas antes de aprobar el árbol" in review_md
+    assert "## Cómo reportar correcciones" in review_md

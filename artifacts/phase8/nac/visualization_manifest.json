@@ -2,6 +2,7 @@
   "artifacts": {
     "clinical_tree.html": "artifacts/phase8/nac/clinical_tree.html",
     "clinical_tree.svg": "artifacts/phase8/nac/clinical_tree.svg",
+    "clinical_tree_delivery.md": "artifacts/phase8/nac/clinical_tree_delivery.md",
     "clinical_tree_review.md": "artifacts/phase8/nac/clinical_tree_review.md",
     "clinician_bundle": "artifacts/phase8/nac/clinician_bundle",
     "print_view.html": "artifacts/phase8/nac/print_view.html"
