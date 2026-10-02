@@ -61,6 +61,7 @@ def build_review_packet(
     phase5_dir: Path,
     questions_path: Path,
     packet_dir: Path,
+    project_root: Path,
     document_sha256: str | None = None,
 ) -> CandidateStructureReport:
     """Validate and write the review packet for one protocol.
@@ -68,8 +69,10 @@ def build_review_packet(
     ``graph_json_path`` is the review-bound canonical graph artifact;
     ``review_visuals`` are the review-tree SVG/HTML artifacts bound to that
     exact graph; ``phase5_dir`` points at the unchanged Phase 5 review
-    documents. ``document_sha256`` is the SHA-256 of the original source PDF
-    when locally available.
+    documents; ``project_root`` is the repository root used to persist all
+    artifact paths as portable, repository-relative strings (never
+    machine-specific absolute paths). ``document_sha256`` is the SHA-256 of
+    the original source PDF when locally available.
     """
     html_path = dict(review_visuals).get("review_tree.html")
     svg_path = dict(review_visuals).get("review_tree.svg")
@@ -96,6 +99,7 @@ def build_review_packet(
         review_visuals=review_visuals,
         phase5_dir=phase5_dir,
         questions_path=questions_path,
+        project_root=project_root,
         document_sha256=document_sha256,
     )
     (packet_dir / "review_manifest.json").write_text(
@@ -104,6 +108,24 @@ def build_review_packet(
         encoding="utf-8",
     )
     return report
+
+
+def _relative_path(path: Path, project_root: Path) -> str:
+    """Return the repository-relative POSIX string for a path, fail-closed.
+
+    Absolute or out-of-tree paths raise ValueError: manifests must never
+    persist machine-specific locations.
+    """
+    root = project_root.resolve()
+    resolved = path.resolve()
+    try:
+        relative = resolved.relative_to(root)
+    except ValueError as exc:
+        raise ValueError(
+            f"artifact path {resolved} is outside the project root {root}; "
+            "review manifests must use repository-relative paths"
+        ) from exc
+    return relative.as_posix()
 
 
 def _manifest_payload(
@@ -115,26 +137,27 @@ def _manifest_payload(
     review_visuals: tuple[tuple[str, Path], ...],
     phase5_dir: Path,
     questions_path: Path,
+    project_root: Path,
     document_sha256: str | None,
 ) -> dict[str, Any]:
     bound_artifacts = [
         {
             "name": name,
-            "path": str(path),
+            "path": _relative_path(path, project_root),
             "sha256": sha256_file(path),
         }
         for name, path in review_visuals
     ] + [
         {
             "name": "candidate_graph.json",
-            "path": str(graph_json_path),
+            "path": _relative_path(graph_json_path, project_root),
             "sha256": sha256_file(graph_json_path),
         }
     ]
     phase5_artifacts = [
         {
             "name": name,
-            "path": str(phase5_dir / name),
+            "path": _relative_path(phase5_dir / name, project_root),
             "sha256": sha256_file(phase5_dir / name),
         }
         for name in _PHASE5_REVIEW_ARTIFACTS
@@ -164,7 +187,7 @@ def _manifest_payload(
         "validation_report_sha256": report_hash,
         "review_bound_artifacts": bound_artifacts,
         "phase5_review_artifacts": phase5_artifacts,
-        "clinical_review_questions": str(questions_path),
+        "clinical_review_questions": _relative_path(questions_path, project_root),
         "note": (
             "Candidate review packet. READY_FOR_CLINICAL_REVIEW means structurally "
             "trustworthy and reviewable; it is NOT clinical validation or approval."

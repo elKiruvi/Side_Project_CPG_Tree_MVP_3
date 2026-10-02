@@ -35,6 +35,7 @@ def main() -> None:
         phase5_dir=PHASE5_DIR,
         questions_path=PHASE5_DIR / "clinical_review_questions.md",
         packet_dir=PHASE6_DIR,
+        project_root=ROOT,
         document_sha256=document_sha256,
     )
     print(

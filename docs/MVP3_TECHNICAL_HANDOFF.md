@@ -1919,6 +1919,10 @@ relations; contextual relations must never appear as arrows); review artifact
 QA (existence, protocol identity, disclaimer, issue visibility, blocked
 styling); stable hashing (graph content hash, candidate/relation content
 hashes, artifact SHA-256s, report hash) bound in the review manifest.
+  Review-bound artifact paths are persisted as repository-relative paths
+  (never machine-specific absolute paths), so packets stay portable across
+  checkouts and CI runners; hash verification resolves them against the
+  project root.
 
 ### Review-readiness definition
 

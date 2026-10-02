@@ -30,7 +30,7 @@
     "nac-r28-discharge-education": "f1f2d2366f4971eca665b7b2117482db352dd1ec04669e16f2b8dc9c4cf7992c",
     "nac-r29-follow-up": "67d4467d05fbd664390cc42401cc25c87993778286b017abf3789403dfb947fc"
   },
-  "clinical_review_questions": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/nac/clinical_review_questions.md",
+  "clinical_review_questions": "artifacts/phase5/nac/clinical_review_questions.md",
   "document_id": "doc-3a1654757801b7b6",
   "document_sha256": "3a1654757801b7b618661f846f8335ced6fb9e388891d6bca96f1cd81d6f5882",
   "generation_run_id": "phase4-opencode-ct-pl-193-v9",
@@ -41,22 +41,22 @@
   "phase5_review_artifacts": [
     {
       "name": "projection.yaml",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/nac/projection.yaml",
+      "path": "artifacts/phase5/nac/projection.yaml",
       "sha256": "c6db756d1c81e5df6ed0d8d70f7d923ff139c9ed86dce51c80daab896587a3a0"
     },
     {
       "name": "reconciliation_report.md",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/nac/reconciliation_report.md",
+      "path": "artifacts/phase5/nac/reconciliation_report.md",
       "sha256": "7497d55a96f377593fc2804a773c7facbe33865191eb44994bae3e3f552d429a"
     },
     {
       "name": "review_summary.md",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/nac/review_summary.md",
+      "path": "artifacts/phase5/nac/review_summary.md",
       "sha256": "f0a187edbaedadf618dcf0c2b1c1a974dd23350d9b81dc31437f45a99c587877"
     },
     {
       "name": "clinical_review_questions.md",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/nac/clinical_review_questions.md",
+      "path": "artifacts/phase5/nac/clinical_review_questions.md",
       "sha256": "92c44a4849b17ad16d6794833af8471f6acb72e49358ea75996f2b658054784f"
     }
   ],
@@ -101,17 +101,17 @@
   "review_bound_artifacts": [
     {
       "name": "review_tree.html",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase6/nac/review_tree.html",
+      "path": "artifacts/phase6/nac/review_tree.html",
       "sha256": "8fdf4f20edad6053a6de4b98edd2eccda4331561d61da2d5817b38aa1b999051"
     },
     {
       "name": "review_tree.svg",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase6/nac/review_tree.svg",
+      "path": "artifacts/phase6/nac/review_tree.svg",
       "sha256": "061496276184322be02c1d65a4cf2d4cc3838716e49c57dd58eec3905b31fa78"
     },
     {
       "name": "candidate_graph.json",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase6/nac/candidate_graph.json",
+      "path": "artifacts/phase6/nac/candidate_graph.json",
       "sha256": "7560e68617a69440e2b89bf486d22b7c537caa49bed9c3a99cdc05f4fe130d4c"
     }
   ],

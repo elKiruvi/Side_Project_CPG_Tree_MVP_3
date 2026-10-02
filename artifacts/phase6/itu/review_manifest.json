@@ -39,7 +39,7 @@
     "itu-r37-pregnancy-upper-prevention": "c77728cda4e7b2b9923e071aeaccef4e1c5e6c837dc1f66789ea7bfbdfe6e0a0",
     "itu-r38-adjust-to-culture": "d72a0e40bdb090bcb8479d20688578e7fa9ddd974949ff69f3755c0689263c06"
   },
-  "clinical_review_questions": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/itu/clinical_review_questions.md",
+  "clinical_review_questions": "artifacts/phase5/itu/clinical_review_questions.md",
   "document_id": "doc-800af94bc0654138",
   "document_sha256": "800af94bc0654138a8e213cd1e42ad2e6021a955226a142b36c5b3f24e24777a",
   "generation_run_id": "phase4-opencode-ct-pl-197-v06",
@@ -50,22 +50,22 @@
   "phase5_review_artifacts": [
     {
       "name": "projection.yaml",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/itu/projection.yaml",
+      "path": "artifacts/phase5/itu/projection.yaml",
       "sha256": "a5b8ad1f7fab1d982ee60f5f0563c3a83d08f14c88a702c0034ed568e93766b0"
     },
     {
       "name": "reconciliation_report.md",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/itu/reconciliation_report.md",
+      "path": "artifacts/phase5/itu/reconciliation_report.md",
       "sha256": "e1c5ae549dc8304dbceff3d053826e3271ffd2563bd84808ab4f9d6b86875ad2"
     },
     {
       "name": "review_summary.md",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/itu/review_summary.md",
+      "path": "artifacts/phase5/itu/review_summary.md",
       "sha256": "0e5033a98ede6a955d759f10ecc455849f339b9541ce58643085cf3454e31ec3"
     },
     {
       "name": "clinical_review_questions.md",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase5/itu/clinical_review_questions.md",
+      "path": "artifacts/phase5/itu/clinical_review_questions.md",
       "sha256": "098f466ca256527b27c40b7cb07a7beb202ebb210ec0b0c9a2abea0d8a0847d2"
     }
   ],
@@ -123,17 +123,17 @@
   "review_bound_artifacts": [
     {
       "name": "review_tree.html",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase6/itu/review_tree.html",
+      "path": "artifacts/phase6/itu/review_tree.html",
       "sha256": "f87798b14ce08dcd969b7c140abaf667eddadf468f0ff1688e7eb4ebc37a10cd"
     },
     {
       "name": "review_tree.svg",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase6/itu/review_tree.svg",
+      "path": "artifacts/phase6/itu/review_tree.svg",
       "sha256": "0a33b3b1040c14f1cf45e63cdda366cfadcb78ad684dab7050b76ad27b0f5831"
     },
     {
       "name": "candidate_graph.json",
-      "path": "/home/elkiruvi/proyectos/Side_Project_CPG_Tree_MVP_3/artifacts/phase6/itu/candidate_graph.json",
+      "path": "artifacts/phase6/itu/candidate_graph.json",
       "sha256": "710791a089dda66d17c8d1b5e745d3205586d77df543995cc7e5f3a4ddefa8e3"
     }
   ],

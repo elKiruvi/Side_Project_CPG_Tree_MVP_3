@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import tempfile
 from pathlib import Path
 
@@ -553,6 +554,7 @@ def test_review_packet_binds_hashes() -> None:
             phase5_dir=phase5,
             questions_path=questions,
             packet_dir=packet,
+            project_root=root,
         )
         manifest_data = json.loads((packet / "review_manifest.json").read_text(encoding="utf-8"))
         report_json_path = packet / "validation_report.json"
@@ -563,9 +565,103 @@ def test_review_packet_binds_hashes() -> None:
             rule.candidate_id: rule.content_hash for rule in graph.rules
         }
         for artifact in manifest_data["review_bound_artifacts"]:
-            assert artifact["sha256"] == sha256_file(Path(artifact["path"]))
+            assert artifact["sha256"] == sha256_file(root / Path(artifact["path"]))
         for artifact in manifest_data["phase5_review_artifacts"]:
-            assert artifact["sha256"] == sha256_file(Path(artifact["path"]))
+            assert artifact["sha256"] == sha256_file(root / Path(artifact["path"]))
+
+
+def test_review_packet_paths_are_relative_and_relocatable() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        graph = _base()
+        manifest = _manifest()
+        graph_json = root / "candidate_graph.json"
+        graph_json.write_text(dump_candidate_graph(graph), encoding="utf-8")
+        html = root / "review_tree.html"
+        svg = root / "review_tree.svg"
+        html.write_text(render_review_tree_html(graph, manifest), encoding="utf-8")
+        svg.write_text(render_review_tree_svg(graph, manifest), encoding="utf-8")
+        questions = root / "questions.md"
+        questions.write_text("# questions\n", encoding="utf-8")
+        phase5 = root / "phase5"
+        phase5.mkdir()
+        for name in (
+            "projection.yaml",
+            "reconciliation_report.md",
+            "review_summary.md",
+            "clinical_review_questions.md",
+        ):
+            (phase5 / name).write_text(f"{name}\n", encoding="utf-8")
+        build_review_packet(
+            graph=graph,
+            manifest=manifest,
+            graph_json_path=graph_json,
+            review_visuals=(("review_tree.html", html), ("review_tree.svg", svg)),
+            phase5_dir=phase5,
+            questions_path=questions,
+            packet_dir=root / "packet",
+            project_root=root,
+        )
+        manifest_data = json.loads(
+            (root / "packet" / "review_manifest.json").read_text(encoding="utf-8")
+        )
+        stored_paths = (
+            [artifact["path"] for artifact in manifest_data["review_bound_artifacts"]]
+            + [artifact["path"] for artifact in manifest_data["phase5_review_artifacts"]]
+            + [manifest_data["clinical_review_questions"]]
+        )
+        assert stored_paths
+        for stored in stored_paths:
+            assert not Path(stored).is_absolute()
+            assert ".." not in Path(stored).parts
+        relocated = Path(tmp) / "other-checkout"
+        shutil.copytree(root, relocated, dirs_exist_ok=True)
+        relocated_manifest = json.loads(
+            (relocated / "packet" / "review_manifest.json").read_text(encoding="utf-8")
+        )
+        for artifact in relocated_manifest["review_bound_artifacts"]:
+            assert artifact["sha256"] == sha256_file(relocated / Path(artifact["path"]))
+        for artifact in relocated_manifest["phase5_review_artifacts"]:
+            assert artifact["sha256"] == sha256_file(relocated / Path(artifact["path"]))
+        assert (relocated / Path(relocated_manifest["clinical_review_questions"])).is_file()
+
+
+def test_review_packet_rejects_paths_outside_project_root() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp) / "repo"
+        root.mkdir()
+        graph = _base()
+        manifest = _manifest()
+        graph_json = root / "candidate_graph.json"
+        graph_json.write_text(dump_candidate_graph(graph), encoding="utf-8")
+        html = root / "review_tree.html"
+        svg = root / "review_tree.svg"
+        html.write_text(render_review_tree_html(graph, manifest), encoding="utf-8")
+        svg.write_text(render_review_tree_svg(graph, manifest), encoding="utf-8")
+        questions = root / "questions.md"
+        questions.write_text("# questions\n", encoding="utf-8")
+        phase5 = root / "phase5"
+        phase5.mkdir()
+        for name in (
+            "projection.yaml",
+            "reconciliation_report.md",
+            "review_summary.md",
+            "clinical_review_questions.md",
+        ):
+            (phase5 / name).write_text(f"{name}\n", encoding="utf-8")
+        outside = Path(tmp) / "outside.html"
+        outside.write_text("outside\n", encoding="utf-8")
+        with pytest.raises(ValueError, match="outside the project root"):
+            build_review_packet(
+                graph=graph,
+                manifest=manifest,
+                graph_json_path=graph_json,
+                review_visuals=(("review_tree.html", outside), ("review_tree.svg", svg)),
+                phase5_dir=phase5,
+                questions_path=questions,
+                packet_dir=root / "packet",
+                project_root=root,
+            )
 
 
 def test_no_approved_candidate_state_reported() -> None:

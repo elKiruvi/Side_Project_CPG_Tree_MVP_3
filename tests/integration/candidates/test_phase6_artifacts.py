@@ -112,7 +112,25 @@ def test_review_manifest_binds_hashes(name: str) -> None:
         PHASE6[name] / "validation_report.json"
     )
     for artifact in manifest_data["review_bound_artifacts"]:
-        assert artifact["sha256"] == sha256_file(Path(artifact["path"]))
+        assert artifact["sha256"] == sha256_file(ROOT / Path(artifact["path"]))
+    for artifact in manifest_data["phase5_review_artifacts"]:
+        assert artifact["sha256"] == sha256_file(ROOT / Path(artifact["path"]))
+    assert (ROOT / Path(manifest_data["clinical_review_questions"])).is_file()
+
+
+@pytest.mark.parametrize("name", ("nac", "itu"))
+def test_review_manifest_paths_are_portable(name: str) -> None:
+    manifest_data = json.loads((PHASE6[name] / "review_manifest.json").read_text(encoding="utf-8"))
+    stored_paths = (
+        [artifact["path"] for artifact in manifest_data["review_bound_artifacts"]]
+        + [artifact["path"] for artifact in manifest_data["phase5_review_artifacts"]]
+        + [manifest_data["clinical_review_questions"]]
+    )
+    assert stored_paths
+    for stored in stored_paths:
+        assert not Path(stored).is_absolute()
+        assert ".." not in Path(stored).parts
+        assert (ROOT / Path(stored)).exists()
     for artifact in manifest_data["phase5_review_artifacts"]:
         assert artifact["sha256"] == sha256_file(Path(artifact["path"]))
 
