@@ -1,0 +1,19 @@
+schema: projection-v1
+protocol_version_id: CT-PL-197-v06
+stages:
+  - label: Asymptomatic bacteriuria context
+    roots:
+      - itu-r01-asymptomatic-bacteriuria-classification
+  - label: Symptomatic UTI (classification and diagnostics)
+    roots:
+      - itu-r02-symptomatic-uti-classification
+  - label: Pregnancy upper-UTI treatment and prevention
+    roots:
+      - itu-r36-pregnancy-upper-treatment
+      - itu-r37-pregnancy-upper-prevention
+notes:
+  - "Projection roots are stage anchors declared for review readability; they add no canonical edges."
+  - "The pregnancy upper-UTI stage connects to the pregnancy ultrasound rule only through a BRANCH_CONTEXT relation in the canonical graph; no unconditional FLOW was invented."
+  - "The outpatient upper-UTI branch (itu-rel-23) is rendered as a BLOCKED dashed edge because it contradicts the upper-UTI hospitalization bullet."
+  - "The two non-equivalent complicated-UTI definitions and the pediatric hospitalization statement remain disconnected review items; see the disconnected-components section."
+  - "Prevention and adjustment relations are condition-labelled BRANCH edges (culture/susceptibility available)."

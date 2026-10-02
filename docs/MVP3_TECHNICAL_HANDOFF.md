@@ -1773,6 +1773,105 @@ corrections as new candidate revisions. Do not begin clinician-facing final
 visualization or approved-package compilation until that semantic graph review
 is complete.
 
+## Implementation Status — Phase 5 (relationship reconciliation + review projection)
+
+Implemented on `feature/relationship-reconciliation`. Semantic interpretation
+was again performed directly by the OpenCode agent (`openai/gpt-5.6-sol`); no
+runtime OpenAI/DeepSeek/Ollama/local model was used. Phase 5 reviewed every
+Phase 4 `CandidateRelation` against the source, corrected relation types and
+anchors, added only source-supported missing relations, and produced a
+preliminary review projection (SVG + HTML) for both protocols.
+
+### Architecture
+
+- `src/cpg_tree/views/review_tree.py` is a protocol-agnostic, deterministic
+  review-tree projection over a `CandidateGraph` plus an optional
+  `ProjectionManifest` (`projection-v1`, presentation metadata only).
+- Only canonical `FLOW`/`BRANCH` relations are drawn as pathway arrows.
+  Contextual relations (`SUPPORTS`, `REFERENCE`, `BRANCH_CONTEXT`,
+  `EXCEPTION_CONTEXT`, `COMPOSITION`, `DECLARES_ACTION`) are listed separately
+  and never rendered as sequence. Blocked relations are drawn dashed/red;
+  candidate states and Issues are visible; evidence is attached per rule;
+  disconnected components and cycle-closing edges are annotated, never hidden.
+- The projection never creates, removes, or resolves clinical edges. The
+  Candidate Graph remains canonical; `review_tree.html`/`review_tree.svg` are
+  derived views. No candidate was promoted to approved knowledge.
+- Protocol-specific reconciliation lives in
+  `artifacts/phase5/{nac,itu}/reconcile_graph.py` (knowledge artifacts, not
+  generic engine code) with shared mechanics in
+  `artifacts/phase5/_mechanics.py`.
+
+### NAC reconciliation (CT-PL-193 v9)
+
+- Rules: 29 initial → 29 final (unchanged).
+- Relations: 33 initial → 33 final: 31 kept, 2 retyped, 0 retargeted,
+  0 removed, 0 added, 0 blocked.
+- Retyped: `nac-rel-18` and `nac-rel-19` became condition-labelled `BRANCH`
+  relations ("molecular/culture result available") so result-guided adjustment
+  is not unconditional sequence.
+- Disconnected components: `nac-r05-ct-neutropenia` (independent febrile-
+  neutropenia imaging context) and `nac-r06-basic-laboratory` (contextual-only
+  by design, anchored as a projection stage root).
+- Intentional cycles: 0.
+- Issues: 7 open (6 blocking, 1 non-blocking) — unchanged from Phase 4.
+- Visual artifacts: `artifacts/phase5/nac/review_tree.svg`,
+  `review_tree.html`, `projection.yaml`, `reconciliation_report.md`,
+  `review_summary.md`, `clinical_review_questions.md` (12 questions).
+
+### ITU reconciliation (CT-PL-197 v06)
+
+- Rules: 38 initial → 38 final (unchanged).
+- Relations: 43 initial → 46 final: 26 kept, 14 retyped, 2 retargeted,
+  0 removed, 3 added, 1 blocked.
+- Retyped: `itu-rel-07` became `BRANCH` (culture is a diagnostic pathway step
+  with its own exception); `itu-rel-30…38` and `itu-rel-39…41` became
+  condition-labelled `BRANCH` relations; `itu-rel-29` became `BRANCH_CONTEXT`
+  (prevention is a parallel pregnancy-table column, not a treatment step).
+- Retargeted: `itu-rel-14` (urgent imaging) and `itu-rel-42` (pregnancy
+  ultrasound) re-anchored at the symptomatic-UTI classification, matching the
+  source wording ("pacientes con infección urinaria y …", pregnancy
+  indications beyond pyelonephritis).
+- Blocked: `itu-rel-23` — the outpatient upper-UTI branch stays visible but
+  BLOCKED because it contradicts the upper-UTI hospitalization bullet.
+- Added: `itu-rel-44` SUPPORTS (Gram "sirve para guiar el tratamiento
+  empírico"), `itu-rel-45`/`itu-rel-46` BRANCH (prevention decisions are
+  culture-based per pregnancy-table footnote 2).
+- Disconnected components: the two non-equivalent complicated-UTI definitions
+  (`itu-r03`, `itu-r06`) and the pediatric statement (`itu-r25`) — all kept as
+  explicit review items.
+- Intentional cycles: 0.
+- Issues: 7 open (5 blocking, 2 non-blocking) — unchanged from Phase 4.
+- Visual artifacts: `artifacts/phase5/itu/review_tree.svg`,
+  `review_tree.html`, `projection.yaml`, `reconciliation_report.md`,
+  `review_summary.md`, `clinical_review_questions.md` (16 questions).
+
+### Validation and tests
+
+- Deterministic structural validation: 0 errors in both reconciled graphs.
+  Warnings (NAC 2, ITU 3) correspond to the intentional disconnected
+  components documented above.
+- Provenance: every non-visual exact quote still resolves in its cited
+  `SourceSpan`; both JSON artifacts round-trip through domain contracts.
+- New tests: `tests/unit/views/test_review_tree.py` (projection mechanics:
+  determinism, no fabricated arrows, blocked-edge rendering, disconnected
+  components, cycle annotation, escaping, manifest validation, orphan
+  sequential components, state distinction) and
+  `tests/integration/candidates/test_phase5_artifacts.py` (round-trip, zero
+  errors, quote integrity, protocol isolation, no approved states, exact
+  reconciliation decisions, byte-deterministic visuals).
+- The visual projection rules were deliberately not expanded into a
+  clinician-facing production UI; Phase 5 output remains review artifacts.
+
+### Remaining clinical uncertainties and exact next step
+
+All Phase 4 conflicts remain open (NAC BUN/ICU/visual-table issues; ITU
+upper-UTI disposition, complicated definitions, pregnancy alignment,
+oral-switch/discharge ambiguity). Next: qualified clinical reviewers inspect
+the Phase 5 review trees, summaries, and question lists; their corrections
+become new candidate revisions. The following technical phase is Phase 6
+(deterministic structural validation expansion) plus the polished
+clinician-facing review visualization, not clinical approval.
+
 ## Phase 0: base, security, and Git
 
 - **Objective:** establish an independent, reproducible, private MVP 3
